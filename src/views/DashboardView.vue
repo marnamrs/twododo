@@ -14,6 +14,7 @@ export default {
 </script>
 
 <template>
-        Dashboard
+        This is the dashboard!
         <button @click="login">Login!</button>
+        <routerview/>
 </template>
