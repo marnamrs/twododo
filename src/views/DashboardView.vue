@@ -10,11 +10,6 @@ export default {
         computed: {
                 ...mapStores(userStore)
         },
-        methods: {
-                login() {
-                        this.userStore.signUp()
-                }
-        }
 }
 </script>
 
@@ -22,6 +17,6 @@ export default {
 <NavBar/>
 
         This is the dashboard!
-        <button @click="login">Login!</button>
+
         <routerview/>
 </template>

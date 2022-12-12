@@ -2,7 +2,7 @@
 </script>
 
 <template>
-        <nav>
+        <nav class="bg-lime-50 flex justify-between">
                 <div>
                         <!-- logo -->LOGOLOGO
                 </div>
