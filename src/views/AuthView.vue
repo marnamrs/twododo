@@ -5,7 +5,7 @@ import userStore from '../stores/user'
 export default {
         data() {
                 return {
-                        username: null,
+                        email: null,
                         password: null,
                 }
         },
@@ -13,11 +13,11 @@ export default {
                 ...mapStores(userStore)
         },
         methods: {
-                signUp() {
-                        this.userStore.signUp()
+                signUp(email, password) {
+                        this.userStore.signUp(email, password)
                 },
-                signIn() {
-                        this.userStore.signInWithEmail()
+                signIn(email, password) {
+                        this.userStore.signInWithEmail(email, password)
                 },
         }
 }
@@ -30,17 +30,17 @@ export default {
 
         <div>
                 Log In:
-                <form @submit.prevent="signIn()">
+                <form @submit.prevent="signIn(email, password)">
                         <label id="email">@</label>
-                        <input type="email" v-model="username" class="border" />
+                        <input type="email" v-model="email" class="border" />
                         <label id="password">password</label>
                         <input type="password" v-model="password" class="border" />
                         <button class="bg-blue-300 mx-2">Log In</button>
                 </form>
                 Registration:
-                <form @submit.prevent="signUp()">
+                <form @submit.prevent="signUp(email, password)">
                         <label id="email">@</label>
-                        <input type="email" v-model="username" class="border" />
+                        <input type="email" v-model="email" class="border" />
                         <label id="password">password</label>
                         <input type="password" v-model="password" class="border" />
                         <button class="bg-lime-200 mx-2">Register</button>
