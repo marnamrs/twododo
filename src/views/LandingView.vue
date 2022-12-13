@@ -2,5 +2,5 @@
 </script>
 
 <template>
-        <h1>LANDING PAGE</h1>
+        <h1 class="font-bold">LANDING PAGE</h1>
 </template>

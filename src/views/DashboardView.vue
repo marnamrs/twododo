@@ -11,7 +11,7 @@ export default {
 </script>
 
 <template>
-
-        This is the dashboard!
+        <h1 class="font-bold"> This is the dashboard!
+        </h1>
 
 </template>

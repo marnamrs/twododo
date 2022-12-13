@@ -16,20 +16,20 @@ export default {
                 signUp(email, password) {
                         this.userStore.signUp(email, password)
                 },
-                signIn(email, password) {
-                        this.userStore.signInWithEmail(email, password)
-                },
         }
 }
 
 </script>
 
 <template>
-        <h1 class="font-bold">Auth page</h1>
-        <p>This is the auth page</p>
-        <router-link to="/Auth/LogIn" class="underline">Log In</router-link>
-        <router-link to="/Auth/Register" class="underline">Register</router-link>
-        <div>
-                <router-view />
-        </div>
+        <h2>Registration</h2>
+
+        <form @submit.prevent="signUp(email, password)">
+                <label id="email">@</label>
+                <input type="email" v-model="email" class="border" />
+                <label id="password">password</label>
+                <input type="password" v-model="password" class="border" />
+                <button class="bg-lime-200 mx-2">Register</button>
+        </form>
+
 </template>
