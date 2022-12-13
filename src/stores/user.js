@@ -31,7 +31,7 @@ export default defineStore("user", {
                         if (data) this.data = data.user;
                 },
                 // mirar si el mail está confirmado para dar acceso al usuario
-                persist: {
+        persist: {
                         enabled: true,
                         strategies: [
                                 {
