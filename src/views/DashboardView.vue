@@ -4,14 +4,18 @@ import userStore from '../stores/user'
 
 export default {
         beforeMount() {
-                if (this.userStore.user) {
-                        console.log(this.userStore.user)
-                } else {console.log('nope')}
+                if (!this.userStore.user) {
+                        this.$router.push({
+                                path: "/Auth",
+                                replace: true,
+                        });
+                }
         },
         computed: {
                 ...mapStores(userStore)
         },
 }
+
 </script>
 
 <template>
