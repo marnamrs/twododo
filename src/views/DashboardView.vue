@@ -2,8 +2,12 @@
 import { mapStores } from 'pinia'
 import userStore from '../stores/user'
 
-
 export default {
+        beforeMount() {
+                if (this.userStore.user) {
+                        console.log(this.userStore.user)
+                } else {console.log('nope')}
+        },
         computed: {
                 ...mapStores(userStore)
         },
