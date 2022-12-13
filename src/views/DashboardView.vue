@@ -11,9 +11,7 @@ export default {
 </script>
 
 <template>
-<NavBar/>
 
         This is the dashboard!
 
-        <routerview/>
 </template>

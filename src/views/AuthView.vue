@@ -30,6 +30,7 @@ export default {
 
         <div>
                 Log In:
+                <router-link to="" class="underline">Log In</router-link>
                 <form @submit.prevent="signIn(email, password)">
                         <label id="email">@</label>
                         <input type="email" v-model="email" class="border" />
@@ -38,6 +39,7 @@ export default {
                         <button class="bg-blue-300 mx-2">Log In</button>
                 </form>
                 Registration:
+                <router-link to="" class="underline">Register</router-link>
                 <form @submit.prevent="signUp(email, password)">
                         <label id="email">@</label>
                         <input type="email" v-model="email" class="border" />

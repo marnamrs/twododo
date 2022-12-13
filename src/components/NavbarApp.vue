@@ -8,7 +8,8 @@
                 </div>
                 <div>
                         <router-link to="/">Home</router-link>
-                        <router-link to="/authentication">Log In</router-link>
+                        <router-link to="/Dashboard">Dashboard</router-link>
+                        <router-link to="/Auth">Log</router-link>
                 </div>
         </nav>
 </template>
