@@ -1,7 +1,6 @@
 <script>
 import { mapStores } from 'pinia'
 import userStore from '../stores/user'
-import NavBar from "../components/NavbarApp.vue"
 
 export default {
         data() {
@@ -9,9 +8,6 @@ export default {
                         username: null,
                         password: null,
                 }
-        },
-        components: {
-                NavBar
         },
         computed: {
                 ...mapStores(userStore)
@@ -29,7 +25,6 @@ export default {
 </script>
 
 <template>
-        <NavBar />
         <h1>Auth page:</h1>
         <p>This is the auth page</p>
 
