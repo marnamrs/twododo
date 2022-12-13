@@ -11,9 +11,7 @@ export default {
 </script>
 
 <template>
-<NavBar/>
+        <h1 class="font-bold"> This is the dashboard!
+        </h1>
 
-        This is the dashboard!
-
-        <routerview/>
 </template>

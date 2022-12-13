@@ -1,19 +1,40 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Dashboard from "../views/DashboardView.vue";
-import Authentication from "../views/AuthView.vue";
 
 const router = createRouter({
         history: createWebHistory(import.meta.env.BASE_URL),
         routes: [
                 {
                         path: "/",
-                        component: Dashboard,
+                        name: "Landing",
+                        component: () => import("../views/LandingView.vue"),
+                },
+                {
+                        path: "/Dashboard",
+                        name: "Dashboard",
+                        component: () => import("../views/DashboardView.vue"),
                         children: [],
                 },
                 {
-                        path: "/authentication",
-                        component: Authentication,
-                }
+                        path: "/Auth",
+                        name: "Auth",
+                        component: () => import("../views/AuthView.vue"),
+                        children: [
+                                {
+                                        path: "/Auth/Login",
+                                        name: "Login",
+                                        component: () =>
+                                                import("../views/LogView.vue"),
+                                },
+                                {
+                                        path: "/Auth/Register",
+                                        name: "Register",
+                                        component: () =>
+                                                import(
+                                                        "../views/RegisterView.vue"
+                                                ),
+                                },
+                        ],
+                },
         ],
 });
 
