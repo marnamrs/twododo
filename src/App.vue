@@ -10,8 +10,10 @@ export default {
 </script>
 
 <template>
-        <NavBar />
+                        <NavBar />
+        <div id="app">
         <RouterView />
+        </div>
 </template>
 
 <style scoped>
