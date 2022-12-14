@@ -15,5 +15,24 @@ export default defineStore("tasks", {
                                 .order("id", { ascending: false });
                         this.tasks = tasks;
                 },
+                async createTask() {
+                        const { error } = await supabase
+                                .from("tasks")
+                                .insert({ id: 1, name: "Denmark" });
+                        if (error) {
+                                alert(error.message);
+                                throw error;
+                        }
+                },
+                async deleteTask() {
+                        const { error } = await supabase
+                                .from("tasks")
+                                .select("*")
+                                .order("id");
+                        if (error) {
+                                alert(error.message);
+                                throw error;
+                        }
+                },
         },
 });
