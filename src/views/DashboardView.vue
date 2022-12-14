@@ -19,7 +19,9 @@ export default {
 </script>
 
 <template>
-        <h1 class="font-bold"> This is the dashboard!
-        </h1>
+<h2>Welcome /name/</h2>
+<button>New task</button>
+<button>Sort</button>
+<div>/tasks/</div>
 
 </template>
