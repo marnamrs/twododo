@@ -53,7 +53,7 @@ export default defineStore("user", {
                         }
                 },
                 async resetPasswordForEmail(email) {
-                        const { data, error } =
+                        const {error} =
                                 await supabase.auth.resetPasswordForEmail(
                                         email,
                                         {
@@ -66,7 +66,7 @@ export default defineStore("user", {
                         }
                 },
                 async updateUser(newpassword) {
-                        const { data, error } = await supabase.auth.updateUser({
+                        const {error } = await supabase.auth.updateUser({
                                 password: newpassword,
                         });
                         if (error) {

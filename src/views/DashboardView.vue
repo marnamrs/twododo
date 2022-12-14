@@ -13,7 +13,7 @@ export default {
         },
         methods: {
                 checkLog() {
-                        if (!this.userStore.user) {
+                        if (!this.userStore.isLogged) {
                                 alert("Log in or register with Twododo to view your dashboard.")
                                 this.$router.push({
                                         path: "/Auth",
@@ -30,7 +30,7 @@ export default {
 </script>
 
 <template>
-<h2>Welcome /name/</h2>
+<h2>Welcome</h2>
 <button>New task</button>
 <button>Sort</button>
 <div>/tasks/</div>
