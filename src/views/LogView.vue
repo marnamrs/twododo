@@ -16,6 +16,11 @@ export default {
                 signIn(email, password) {
                         this.userStore.signInWithEmail(email, password)
                 },
+                reset() {
+                        const email = prompt("Please enter your email:");
+                        console.log(email);
+                        this.userStore.resetPasswordForEmail(email);
+                }
         }
 }
 
@@ -31,4 +36,7 @@ export default {
                 <input type="password" v-model="password" class="border" />
                 <button class="bg-blue-300 mx-2">Log In</button>
         </form>
+        <div>
+                <a @click.once="reset()">Forgot your password?</a>
+        </div>
 </template>

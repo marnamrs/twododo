@@ -7,7 +7,11 @@ export default defineStore("user", {
                         user: null,
                 };
         },
-
+        getters: {
+                isLogged() {
+                        return !!this.user //boolean
+                }
+        },
         actions: {
                 async fetchUser() {
                         const user = await supabase.auth.user();
@@ -18,8 +22,17 @@ export default defineStore("user", {
                                 email: email,
                                 password: password,
                         });
-                        if (error) throw error;
-                        if (data) this.data = data.user;
+                        if (error) {
+                                alert(error.message);
+                                throw error;
+                        }
+                        if (data) {
+                                this.user = data.user;
+                                this.$router.push({
+                                        path: "/Auth/LogIn/",
+                                        replace: true,
+                                });
+                        }
                 },
                 async signInWithEmail(email, password) {
                         const { data, error } =
@@ -27,21 +40,50 @@ export default defineStore("user", {
                                         email: email,
                                         password: password,
                                 });
-                        console.log("data: " + data);
-                        console.log("Test log:  inside login function");
                         if (error) {
                                 alert(error.message);
                                 throw error;
                         }
                         if (data) {
                                 this.user = data.user;
-                                console.log("Test log: inside if data");
                                 this.$router.push({
                                         path: "/Dashboard",
                                         replace: true,
                                 });
                         }
                 },
+                async resetPasswordForEmail(email) {
+                        const {error} =
+                                await supabase.auth.resetPasswordForEmail(
+                                        email,
+                                        {
+                                                redirectTo: "https://twododoapp.netlify.app/Reset",
+                                        }
+                                );
+                        if (error) {
+                                alert(error.message);
+                                throw error;
+                        }
+                },
+                async updateUser(newpassword) {
+                        const {error } = await supabase.auth.updateUser({
+                                password: newpassword,
+                        });
+                        if (error) {
+                                alert(error.message);
+                                throw error;
+                        }
+                },
+                async logOff() {
+                        const { error } = await supabase.auth.signOut();
+                        if (error) {
+                                alert(error.message);
+                                throw error;
+                        } else {
+                                this.user = null;
+                        }
+                },
+
         },
         persist: {
                 enabled: true,
