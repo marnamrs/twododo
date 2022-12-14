@@ -7,6 +7,7 @@ const router = createRouter({
                         path: "/",
                         name: "Landing",
                         component: () => import("../views/LandingView.vue"),
+                        alias: "/Home"
                 },
                 {
                         path: "/Dashboard",
@@ -34,6 +35,11 @@ const router = createRouter({
                                                 ),
                                 },
                         ],
+                },
+                {
+                        path: '/:catchAll(.*)',
+                        name: "ErrorPage",
+                        component: () => import("../views/ErrorPage.vue"),
                 },
         ],
 });
