@@ -75,7 +75,6 @@ export default defineStore("user", {
                         }
                 },
                 async logOff() {
-                        console.log('se está llamando al logoff');
                         const { error } = await supabase.auth.signOut();
                         if (error) {
                                 alert(error.message);

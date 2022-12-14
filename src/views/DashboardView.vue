@@ -7,11 +7,14 @@ export default {
         data() {
                 return {
                         id: null,
-                        task: null,
+                        title: null,
                 }
         },
         beforeMount() {
                 this.checkLog()
+        },
+        mounted() {
+                this.taskStore.fetchTasks();
         },
         methods: {
                 checkLog() {
@@ -25,24 +28,33 @@ export default {
                                 this.id = this.userStore.user.id;
                         }
                 },
+                addTask() {
+                        this.taskStore.createTask(this.id, this.title);
+                        this.title = null;
+                }
         },
         computed: {
-                ...mapStores(userStore),
-                ...mapStores(taskStore),
+                ...mapStores(userStore, taskStore)
         },
 }
 
 </script>
 
 <template>
-<h2>Welcome</h2>
-<form @submit.prevent="this.taskStore.createTask(this.id, task)">
-        <input type="text" v-model="task" placeholder="Create a new task" class="border"/>
-        <button>Add</button>
-</form>
+        <h2>Welcome</h2>
+        <form @submit.prevent="addTask">
+                <input type="text" v-model="title" placeholder="Create a new task" class="border" />
+                <button>Add</button>
+        </form>
 
-<div>
-        
-</div>
+        <div>
+                <div class="bg-blue-300">
+                        <h3>Tasks:</h3>
+                        <ul>
+                                <li v-for="(task, index) in taskStore.tasks" :key="index">
+                                {{task.title}}</li>
+                        </ul>
+                </div>
+        </div>
 
 </template>
