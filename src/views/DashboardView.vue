@@ -1,11 +1,13 @@
 <script>
 import { mapStores } from 'pinia'
 import userStore from '../stores/user'
+import taskStore from '../stores/task'
 
 export default {
         data() {
                 return {
-                        user: null,
+                        id: null,
+                        task: null,
                 }
         },
         beforeMount() {
@@ -19,11 +21,14 @@ export default {
                                         path: "/Auth",
                                         replace: true,
                                 });
+                        } else {
+                                this.id = this.userStore.user.id;
                         }
                 },
         },
         computed: {
-                ...mapStores(userStore)
+                ...mapStores(userStore),
+                ...mapStores(taskStore),
         },
 }
 
@@ -31,8 +36,13 @@ export default {
 
 <template>
 <h2>Welcome</h2>
-<button>New task</button>
-<button>Sort</button>
-<div>/tasks/</div>
+<form @submit.prevent="this.taskStore.createTask(this.id, task)">
+        <input type="text" v-model="task" placeholder="Create a new task" class="border"/>
+        <button>Add</button>
+</form>
+
+<div>
+        
+</div>
 
 </template>

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { supabase } from "../supabase";
 
-export default defineStore("tasks", {
+export default defineStore("task", {
         state() {
                 return {
                         tasks: null,
@@ -15,10 +15,11 @@ export default defineStore("tasks", {
                                 .order("id", { ascending: false });
                         this.tasks = tasks;
                 },
-                async createTask() {
-                        const { error } = await supabase
-                                .from("tasks")
-                                .insert({ id: 1, name: "Denmark" });
+                async createTask(uuid, task) {
+                        const { error } = await supabase.from("tasks").insert({
+                                user_id: uuid,
+                                title: task,
+                        });
                         if (error) {
                                 alert(error.message);
                                 throw error;
