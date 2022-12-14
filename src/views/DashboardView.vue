@@ -46,14 +46,31 @@ export default {
                 <input type="text" v-model="title" placeholder="Create a new task" class="border" />
                 <button>Add</button>
         </form>
-
         <div>
-                <div class="bg-blue-300">
-                        <h3>Tasks:</h3>
-                        <ul>
-                                <li v-for="(task, index) in taskStore.tasks" :key="index">
-                                {{task.title}}</li>
-                        </ul>
+                <div>
+                        <table>
+                                <thead>
+                                        <th class="w-80 text-left">Tasks</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                </thead>
+                                <tbody>
+                                        <tr v-for="(task, index) in taskStore.tasks" :key="index">
+                                        <td>{{task.title}}</td>
+                                        <td>
+                                                <!-- priority -->
+                                        </td>
+                                        <td>
+                                                <!-- edit button -->
+                                        </td>
+                                        <td>
+                                                <!-- delete button -->
+                                                
+                                        </td>
+                                </tr>
+                                </tbody>
+                        </table>
                 </div>
         </div>
 
