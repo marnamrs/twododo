@@ -57,18 +57,18 @@ export default {
                                 </thead>
                                 <tbody>
                                         <tr v-for="(task, index) in taskStore.tasks" :key="index">
-                                        <td>{{task.title}}</td>
-                                        <td>
-                                                <!-- priority -->
-                                        </td>
-                                        <td>
-                                                <!-- edit button -->
-                                        </td>
-                                        <td>
-                                                <!-- delete button -->
-                                                
-                                        </td>
-                                </tr>
+                                                <td>{{ task.title }}</td>
+                                                <td>
+                                                        <!-- priority -->
+                                                </td>
+                                                <td>
+                                                        <!-- edit button -->
+                                                </td>
+                                                <td>
+                                                        <!-- delete button -->
+                                                        <img src="" v-on:click="taskStore.deleteTask()" class=""/>
+                                                </td>
+                                        </tr>
                                 </tbody>
                         </table>
                 </div>
