@@ -7,7 +7,11 @@ export default defineStore("user", {
                         user: null,
                 };
         },
-
+        getters: {
+                isLogged() {
+                        return !!this.user //boolean
+                }
+        },
         actions: {
                 async fetchUser() {
                         const user = await supabase.auth.user();
@@ -70,6 +74,17 @@ export default defineStore("user", {
                                 throw error;
                         }
                 },
+                async logOff() {
+                        console.log('se está llamando al logoff');
+                        const { error } = await supabase.auth.signOut();
+                        if (error) {
+                                alert(error.message);
+                                throw error;
+                        } else {
+                                this.user = null;
+                        }
+                },
+
         },
         persist: {
                 enabled: true,
