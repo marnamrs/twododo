@@ -56,7 +56,7 @@ export default {
                                         <th></th>
                                 </thead>
                                 <tbody>
-                                        <tr v-for="(task, index) in taskStore.tasks" :key="index">
+                                        <tr v-for="task in taskStore.tasks" :key="task.id">
                                                 <td>{{ task.title }}</td>
                                                 <td>
                                                         <!-- priority -->
@@ -66,7 +66,7 @@ export default {
                                                 </td>
                                                 <td>
                                                         <!-- delete button -->
-                                                        <img src="" v-on:click="taskStore.deleteTask()" class=""/>
+                                                        <img src="../assets/images/trash.png" v-on:click="taskStore.deleteTask(task.id)" class="w-8"/>
                                                 </td>
                                         </tr>
                                 </tbody>

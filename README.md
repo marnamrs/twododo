@@ -14,5 +14,5 @@ Usability:
 <b>Credits:</b>
 
 <ul>
-<li>Delete task icon created by <a href="https://www.flaticon.com/free-icons/button" title="button icons">TA iF TKN @ Flaticon</a></li>
+<li>Icons created by <a href="https://www.flaticon.com/authors/ta-if-tkn" title="icons">TA iF TKN @ Flaticon</a></li>
 </ul>

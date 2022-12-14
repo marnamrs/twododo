@@ -24,18 +24,21 @@ export default defineStore("task", {
                                 alert(error.message);
                                 throw error;
                         }
-                        
+
                         this.fetchTasks();
                 },
-                async deleteTask() {
+                async deleteTask(id) {
+                        console.log("in delete function");
+                        console.log('id: ' + id)
                         const { error } = await supabase
                                 .from("tasks")
-                                .select("*")
-                                .order("id");
+                                .delete("*")
+                                .eq("id", id);
                         if (error) {
                                 alert(error.message);
                                 throw error;
                         }
+                        this.fetchTasks();
                 },
         },
 });
