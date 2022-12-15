@@ -24,7 +24,6 @@ export default defineStore("task", {
                                 alert(error.message);
                                 throw error;
                         }
-
                         this.fetchTasks();
                 },
                 async deleteTask(id) {
@@ -34,6 +33,20 @@ export default defineStore("task", {
                                 .from("tasks")
                                 .delete("*")
                                 .eq("id", id);
+                        if (error) {
+                                alert(error.message);
+                                throw error;
+                        }
+                        this.fetchTasks();
+                },
+                async editTask(id, newtitle, newstatus) {
+                        const {error} = await supabase
+                        .from("tasks")
+                        .update({
+                                title: newtitle,
+                                status: newstatus,
+                        })
+                        .eq("id", id);
                         if (error) {
                                 alert(error.message);
                                 throw error;

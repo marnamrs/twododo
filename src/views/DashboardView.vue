@@ -8,30 +8,29 @@ export default {
                 return {
                         id: null,
                         title: null,
+                        status: null,
+                        //editing: false --> when true, change title to input
                 }
         },
-        beforeMount() {
-                this.checkLog()
-        },
+        // beforeMount() {
+        //         this.checkLog()
+        // },
         mounted() {
                 this.taskStore.fetchTasks();
         },
         methods: {
-                checkLog() {
-                        if (!this.userStore.isLogged) {
-                                alert("Log in or register with Twododo to view your dashboard.")
-                                this.$router.push({
-                                        path: "/Auth",
-                                        replace: true,
-                                });
-                        } else {
-                                this.id = this.userStore.user.id;
-                        }
-                },
+                //         checkLog() {
+                //                 this.id = this.userStore.user.id;
+                //         }
+                // },
                 addTask() {
-                        this.taskStore.createTask(this.id, this.title);
+                        this.taskStore.createTask({
+                                uuid: this.userStore.user.id,
+                                title: this.title,
+                                status: 1,
+                        });
                         this.title = null;
-                }
+                },
         },
         computed: {
                 ...mapStores(userStore, taskStore)
@@ -66,7 +65,9 @@ export default {
                                                 </td>
                                                 <td>
                                                         <!-- delete button -->
-                                                        <img src="../assets/images/trash.png" v-on:click="taskStore.deleteTask(task.id)" class="w-8"/>
+                                                        <img src="../assets/images/trash.png"
+                                                                v-on:click="taskStore.deleteTask(task.id)"
+                                                                class="w-8" />
                                                 </td>
                                         </tr>
                                 </tbody>

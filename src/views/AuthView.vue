@@ -19,7 +19,16 @@ export default {
                 signIn(email, password) {
                         this.userStore.signInWithEmail(email, password)
                 },
-        }
+        },
+        mounted() {
+                // if (this.userStore.isLogged) {
+                //         alert('You are already logged in, we are redirecting you to the Dashboard.')
+                //         this.$router.push({
+                //                 path: "/Dashboard",
+                //                 replace: true,
+                //         })
+                // }
+        },
 }
 
 </script>
