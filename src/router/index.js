@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
+// import { supabase } from "../supabase";
+import userStore from "../stores/user";
 
 const router = createRouter({
         history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,7 +9,7 @@ const router = createRouter({
                         path: "/",
                         name: "Landing",
                         component: () => import("../views/LandingView.vue"),
-                        alias: "/Home"
+                        alias: "/Home",
                 },
                 {
                         path: "/Dashboard",
@@ -35,17 +37,38 @@ const router = createRouter({
                                                 ),
                                 },
                         ],
-                }, {
-                        path: "/Reset",
-                        name: "Reset",
-                        component: () => import("../views/ResetPasswordView.vue")
                 },
                 {
-                        path: '/:catchAll(.*)',
+                        path: "/Reset",
+                        name: "Reset",
+                        component: () =>
+                                import("../views/ResetPasswordView.vue"),
+                },
+                {
+                        path: "/:catchAll(.*)",
                         name: "ErrorPage",
                         component: () => import("../views/ErrorPage.vue"),
                 },
         ],
+});
+
+router.beforeEach(async function (param) {
+        const store = userStore();
+        const user = store.user;
+        const isLogged = !!user;
+
+        if (isLogged && (param.name === "Auth" || param.name === "Login" || param.name === "Register")) {
+                alert(
+                        "You are already logged in, we are redirecting you to the Dashboard."
+                );
+                return "/Dashboard";
+        }
+
+        if (!isLogged && param.name === "Dashboard") {
+                alert("Log in or register with Twododo to view your dashboard.")
+                                
+                return "/Auth";
+        }
 });
 
 export default router;
