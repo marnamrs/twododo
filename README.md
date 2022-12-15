@@ -14,5 +14,7 @@ Usability:
 <b>Credits:</b>
 
 <ul>
-<li>Icons created by <a href="https://www.flaticon.com/authors/ta-if-tkn" title="icons">TA iF TKN @ Flaticon</a></li>
+<li>Icons created by <a href="https://www.flaticon.com/free-icons/" title="icons">TA iF TKN @ Flaticon</a></li>
+<li>Login background <a href="https://www.freepik.com/free-vector/financial-doodle-vector-real-estate-concept_17222079.htm#query=doodle%20design&position=31&from_view=keyword">created by rawpixel.com @ Freepik</a></li>
+
 </ul>

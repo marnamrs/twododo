@@ -10,15 +10,36 @@ export default {
 </script>
 
 <template>
-        <nav class="bg-lime-50 flex justify-between">
-                <div>
-                        <!-- logo -->LOGOLOGO
+        <nav class="flex justify-between items-center h-[3.5rem] px-8 py-14">
+                <div id="logo-wrap" class="ml-4 flex justify-between items-center w-48">
+                        <div><img src="../assets/images/logonavbar.png" class="h-[3rem]"></div>
+                        <div class="caveat font-bold text-4xl">Twododo</div>
                 </div>
-                <div>
-                        <router-link to="/">Home</router-link>
-                        <router-link to="/Dashboard">Dashboard</router-link>
-                        <router-link v-if="!this.userStore.isLogged" to="/Auth">Log In</router-link>
-                        <a v-else @click.once="this.userStore.logOff">Log Out</a>
+                <div class="flex justify-between cursor-pointer">
+                        <router-link to="/"
+                                class="block roboto px-5 hover:text-gray-500 hover:drop-shadow-sm">Home</router-link>
+                        <router-link to="/Dashboard"
+                                class="block roboto px-5 hover:text-gray-500 hover:drop-shadow-sm">Dashboard</router-link>
+                        <router-link v-if="!this.userStore.isLogged" to="/Auth"
+                                class="block roboto px-5 hover:text-gray-500 whitespace-nowrap hover:drop-shadow-sm">Log
+                                In</router-link>
+                        <a v-else @click.once="this.userStore.logOff"
+                                class="block roboto px-5 hover:text-gray-500 whitespace-nowrap hover:drop-shadow-sm">Log
+                                Out</a>
                 </div>
         </nav>
 </template>
+
+<style scoped>
+@media(max-width: 600px) {
+        nav {
+                flex-direction: column;
+                height: auto;
+                padding-top: 1rem;
+        }
+
+        #logo-wrap {
+                margin: .5rem auto;
+        }
+}
+</style>
