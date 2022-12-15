@@ -9,6 +9,7 @@ export default {
                         id: null,
                         title: null,
                         status: null,
+                        priority: null,
                         //editing: false --> when true, change title to input
                 }
         },
@@ -40,38 +41,37 @@ export default {
 </script>
 
 <template>
-        <h2>Welcome</h2>
-        <form @submit.prevent="addTask">
-                <input type="text" v-model="title" placeholder="Create a new task" class="border" />
-                <button>Add</button>
-        </form>
+        <div>
+                <form @submit.prevent="addTask">
+                        <input type="text" v-model="title" placeholder="New task" class="border" required />
+                        <select v-model="priority" required>
+                                <option selected hidden>Pick a priority</option>
+                                <option value="1">High</option>
+                                <option value="2">Medium</option>
+                                <option value="3">Low</option>
+                        </select>
+                        <button class="block">Add to the list</button>
+                </form>
+        </div>
+
         <div>
                 <div>
-                        <table>
-                                <thead>
-                                        <th class="w-80 text-left">Tasks</th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                </thead>
-                                <tbody>
-                                        <tr v-for="task in taskStore.tasks" :key="task.id">
-                                                <td>{{ task.title }}</td>
-                                                <td>
-                                                        <!-- priority -->
-                                                </td>
-                                                <td>
-                                                        <!-- edit button -->
-                                                </td>
-                                                <td>
-                                                        <!-- delete button -->
-                                                        <img src="../assets/images/trash.png"
-                                                                v-on:click="taskStore.deleteTask(task.id)"
-                                                                class="w-8" />
-                                                </td>
-                                        </tr>
-                                </tbody>
-                        </table>
+                        <ul class="mx-auto w-9/12">
+                                <li v-for="task in taskStore.tasks" :key="task.id">
+                                        <span>{{ task.title }}</span>
+                                        <span>
+                                                <!-- priority -->
+                                        </span>
+                                        <span>
+                                                <!-- edit button -->
+                                        </span>
+                                        <span>
+                                                <!-- delete button -->
+                                                <img src="../assets/images/trash.png"
+                                                        v-on:click="taskStore.deleteTask(task.id)" class="inline w-8" />
+                                        </span>
+                                </li>
+                        </ul>
                 </div>
         </div>
 
