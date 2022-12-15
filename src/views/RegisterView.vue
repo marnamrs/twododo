@@ -22,7 +22,6 @@ export default {
 </script>
 
 <template>
-        <h2>Registration</h2>
 
         <form @submit.prevent="signUp(email, password)">
                 <label id="email">@</label>
