@@ -10,7 +10,8 @@ export default {
                         title: null,
                         status: null,
                         priority: null,
-                        //editing: false --> when true, change title to input
+                        editing: false, //when true, change title to input and show edit options
+                        archived: false, // when true, show completed  list
                 }
         },
         // beforeMount() {
@@ -20,10 +21,6 @@ export default {
                 this.taskStore.fetchTasks();
         },
         methods: {
-                //         checkLog() {
-                //                 this.id = this.userStore.user.id;
-                //         }
-                // },
                 addTask() {
                         this.taskStore.createTask({
                                 uuid: this.userStore.user.id,
@@ -41,8 +38,9 @@ export default {
 </script>
 
 <template>
-        <div>
-                <form @submit.prevent="addTask">
+
+        <div class="w-1/3 mx-auto border rounded-md">
+                <form @submit.prevent="addTask" class="">
                         <input type="text" v-model="title" placeholder="New task" class="border" required />
                         <select v-model="priority" required>
                                 <option selected hidden>Pick a priority</option>
@@ -53,24 +51,58 @@ export default {
                         <button class="block">Add to the list</button>
                 </form>
         </div>
+        <div class="flex justify-between mx-auto w-1/3 mb-14">
+                <button class="block">Edit</button>
+                <button class="block">Sort</button>
+        </div>
 
-        <div>
-                <div>
-                        <ul class="mx-auto w-9/12">
-                                <li v-for="task in taskStore.tasks" :key="task.id">
-                                        <span>{{ task.title }}</span>
-                                        <span>
+        <div class="flex justify-around caveat text-3xl mx-auto">
+                <div class="mx-auto w-1/3 box"> 
+                        <ul>
+                                <li v-for="task in taskStore.tasks" :key="task.id" class="flex justify-between">
+                                        <span class="block">{{ task.title }}</span>
+                                        <span class="block">
                                                 <!-- priority -->
                                         </span>
-                                        <span>
+                                        <span class="block">
                                                 <!-- edit button -->
                                         </span>
-                                        <span>
+                                        <span class="block">
                                                 <!-- delete button -->
-                                                <img src="../assets/images/trash.png"
-                                                        v-on:click="taskStore.deleteTask(task.id)" class="inline w-8" />
+                                                <img v-if="editing" src="../assets/images/trash.png"
+                                                        v-on:click="taskStore.deleteTask(task.id)" class="w-8" />
                                         </span>
                                 </li>
+                        </ul>
+                </div>
+                <div class="mx-auto w-1/3">
+                        <ul>
+                                <li>testestestestest</li>
+                                <li>testestestestest</li>
+                                <li>testestestestest</li>
+                                <li>testestestestest</li>
+                                <li>testestestestest</li>
+                                <li>testestestestest</li>
+                        </ul>
+                </div>
+                <div class="mx-auto w-1/3">
+                        <ul>
+                                <li>testestestestest</li>
+                                <li>testestestestest</li>
+                                <li>testestestestest</li>
+                                <li>testestestestest</li>
+                                <li>testestestestest</li>
+                                <li>testestestestest</li>
+                        </ul>
+                </div>
+                <div class="mx-auto w-1/3">
+                        <ul>
+                                <li>testestestestest</li>
+                                <li>testestestestest</li>
+                                <li>testestestestest</li>
+                                <li>testestestestest</li>
+                                <li>testestestestest</li>
+                                <li>testestestestest</li>
                         </ul>
                 </div>
         </div>
