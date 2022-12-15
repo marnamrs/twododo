@@ -39,7 +39,7 @@ export default {
 
 <template>
 
-        <div class="w-1/3 mx-auto border rounded-md">
+        <div class="w-1/3 mx-auto border rounded-md mt-6">
                 <form @submit.prevent="addTask" class="">
                         <input type="text" v-model="title" placeholder="New task" class="border" required />
                         <select v-model="priority" required>
