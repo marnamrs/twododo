@@ -26,20 +26,32 @@ export default {
 </script>
 
 <template>
-        <div id="auth-wrap" class="box-content w-[30rem] mx-auto mt-[15vh]">
-                <div class="flex justify-self-start">
-                        <router-link to="/Auth/LogIn" @click="changeActiveTab" activeClass="bg-white" class="block whitespace-nowrap tabs caveat">Log In</router-link>
-                        <router-link to="/Auth/Register" activeClass="bg-white"
-                                class="block ml-1 hitespace-nowrap tabs caveat">Register</router-link>
-                </div>
-                <div id="tab-content-box" class="p-8 leading-loose">
-                        <router-view />
+        <div id="bg-wrap" class="bg-theme">
+                <div id="auth-wrap" class="box-content w-[30rem] mx-auto mt-[15vh]">
+                        <div class="flex justify-self-start">
+                                <router-link to="/Auth/LogIn" @click="changeActiveTab" activeClass="bg-white"
+                                        class="block whitespace-nowrap tabs caveat">Log In</router-link>
+                                <router-link to="/Auth/Register" activeClass="bg-white"
+                                        class="block ml-1 hitespace-nowrap tabs caveat">Register</router-link>
+                        </div>
+                        <div id="tab-content-box" class="p-8 leading-loose bg-white">
+                                <router-view />
+                        </div>
                 </div>
         </div>
-
 </template>
 
 <style scoped>
+.bg-theme {
+        width: 60rem;
+        height: 30rem;
+        margin: auto;
+        background-image: url(../assets/images/doodle-arrows-bg.jpg);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+}
+
 .tabs {
         font-weight: 600;
         font-size: 24px;
@@ -52,20 +64,20 @@ export default {
         border-width: 1px 1px 0 1px;
         border-top-left-radius: 25px;
         border-top-right-radius: 25px;
-background-color: rgb(221, 221, 221);
+        background-color: rgb(221, 221, 221);
 }
 
 #tab-content-box {
         height: 20rem;
         width: 30rem;
-        margin:auto;
+        margin: auto;
         box-sizing: border-box;
         border-color: black;
         border-width: 1px;
         border-bottom-left-radius: 15px;
         border-bottom-right-radius: 15px;
         border-top-right-radius: 15px;
-        box-shadow: 5px 5px 6px rgb(165, 165, 165);
+        box-shadow: 5px 10px 10px rgb(110, 110, 110);
 }
 
 .small-caps {
@@ -77,12 +89,16 @@ background-color: rgb(221, 221, 221);
 }
 
 @media(max-width: 600px) {
-#auth-wrap {
-        margin: 2rem 1rem;
-        width: 90vw;
-}
-#tab-content-box {
-        width: auto;
-}
+        #auth-wrap {
+                margin: 2rem 1rem;
+                width: 90vw;
+        }
+
+        #tab-content-box {
+                width: auto;
+        }
+        .bg-theme {
+                background-image: none;
+        }
 }
 </style>
