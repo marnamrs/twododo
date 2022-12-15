@@ -21,6 +21,7 @@ const router = createRouter({
                         path: "/Auth",
                         name: "Auth",
                         component: () => import("../views/AuthView.vue"),
+                        redirect: "/Auth/Login",
                         children: [
                                 {
                                         path: "/Auth/Login",
