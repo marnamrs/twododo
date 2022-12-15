@@ -3,7 +3,7 @@
 <b>Stack:</b>
 
 <ul>
-<li><a href="https://vuejs.org/">Vue.jsa</a></li>
+<li><a href="https://vuejs.org/">Vue.js</a></li>
 <li><a href="https://router.vuejs.org/">Vuerouter</a></li>
 <li><a href="https://pinia.vuejs.org/">Pinia</a></li>
 <li><a href="https://app.supabase.com">Supabase</a></li>
