@@ -11,7 +11,7 @@ export default {
                         status: null,
                         priority: null,
                         isEditing: false, // when true, show edit options
-                        showArchived: false, // when true, show completed tasks
+                        showArchived: true, // when true, show completed tasks
                 }
         },
         mounted() {
@@ -61,12 +61,12 @@ export default {
                         <button class="block">Sort</button>
                 </div>
 
-                <div class="flex justify-between caveat text-3xl mx-auto">
+                <div id="boxes-wrap" class="flex justify-between caveat text-3xl mx-auto">
                         <!-- BOXES: INCOMPLETE BY PRIORITY -->
-                        <div v-for="(priority, index) in taskStore.incompleteTasks" :key="index" class="w-[380px] ml-10">
+                        <div id="list-wrap" v-for="(priority, index) in taskStore.incompleteTasks" :key="index"
+                                class="content-box">
                                 <ul>
-                                        <li v-for="task in priority" :key="task.id"
-                                                class="flex justify-between">
+                                        <li v-for="task in priority" :key="task.id" class="flex justify-between cursor-pointer hover:line-through">
                                                 <span class="block">{{ task.title }}</span>
                                                 <span class="block">
                                                         <img v-if="isEditing" src="../assets/images/trash.png"
@@ -77,17 +77,12 @@ export default {
                                 </ul>
                         </div>
                         <!-- BOX: COMPLETED -->
-                        <div v-if="showArchived" class="w-[380px] ">
+                        <div id="archived-wrap" v-if="showArchived" class="content-box line-through decoration-3 decoration-black/50">
                                 <ul>
                                         <li v-for="task in taskStore.completeTasks" :key="task.id"
                                                 class="flex justify-between">
                                                 <span class="block">{{ task.title }}</span>
-                                                <!-- <span class="block">
-                                        </span>
-                                        <span class="block">
-                                        </span> -->
                                                 <span class="block">
-                                                        <!-- delete button -->
                                                         <img v-if="isEditing" src="../assets/images/trash.png"
                                                                 v-on:click="taskStore.deleteTask(task.id)"
                                                                 class="w-8" />
@@ -103,5 +98,37 @@ export default {
 <style scoped>
 #dashboard-wrap {
         margin: 5rem;
+}
+
+.content-box {
+        height: 40vh;
+        width: 20vw;
+        max-width: 24rem;
+        min-width: 18rem;
+        margin: auto;
+        padding: 1.5rem;
+        background-color: rgb(245, 245, 245);
+
+        box-sizing: border-box;
+        border: solid 3px rgb(75, 75, 75);
+        border-top-left-radius: 15px 220px;
+        border-top-right-radius: 225px 25px;
+        border-bottom-right-radius: 225px 15px;
+        border-bottom-left-radius: 15px 255px;
+
+        box-shadow: 5px 10px 10px rgb(110, 110, 110); 
+}
+
+@media(max-width: 1200px) {
+        #boxes-wrap {
+                flex-direction: column;
+                justify-content: space-around;
+                align-items: center;
+        }
+
+        #list-wrap,
+        #archived-wrap {
+                padding: 1rem;
+        }
 }
 </style>
