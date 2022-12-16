@@ -54,10 +54,11 @@ export default defineStore("task", {
                         this.tasksMedPrior = priorMed;
                         this.tasksLowPrior = priorLow;
                 },
-                async createTask(uuid, task) {
+                async createTask(userid, task, prior) {
                         const { error } = await supabase.from("tasks").insert({
-                                user_id: uuid,
+                                user_id: userid,
                                 title: task,
+                                priority: prior,
                         });
                         if (error) {
                                 alert(error.message);

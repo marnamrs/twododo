@@ -11,7 +11,7 @@ export default {
                         status: null,
                         priority: null,
                         isEditing: false, // when true, show edit options
-                        showArchived: true, // when true, show completed tasks
+                        showArchived: false, // when true, show completed tasks
                 }
         },
         mounted() {
@@ -19,24 +19,21 @@ export default {
         },
         methods: {
                 addTask() {
-                        this.taskStore.createTask({
-                                uuid: this.userStore.user.id,
-                                title: this.title,
-                                status: 1,
-                        });
+                        const userid = this.userStore.user.id;
+                        console.log('id: ' + userid)
+                        this.taskStore.createTask(
+                                userid, this.title, this.priority,
+                        );
                         this.title = null;
                 },
-                switchEdit () {
+                switchEdit() {
                         if (this.isEditing === false) {
                                 this.isEditing = true;
-                        } else { this.isEditing = false}
+                        } else { this.isEditing = false }
                 },
         },
         computed: {
                 ...mapStores(userStore, taskStore),
-                // sortTasks() {
-                //         return ('something')
-                // },
         },
 }
 
@@ -44,80 +41,109 @@ export default {
 
 <template>
 
-<div id="dashboard-wrap">
-        <div class="w-1/3 mx-auto border rounded-md mt-6">
-                <form @submit.prevent="addTask" class="">
-                        <input type="text" v-model="title" placeholder="New task" class="border" required />
-                        <select v-model="priority" required>
-                                <option selected hidden>Pick a priority</option>
-                                <option value="1">High</option>
-                                <option value="2">Medium</option>
-                                <option value="3">Low</option>
-                        </select>
-                        <button class="block hover:font-bold">Add to the list</button>
-                </form>
-        </div>
-        <div class="flex justify-between mx-auto w-1/3 mb-14">
-                <button class="block hover:font-bold" @click="switchEdit">Edit</button>
-                <button class="block">Sort</button>
-        </div>
-
-        <div class="flex justify-between caveat text-3xl mx-auto">
-                <div class="w-[380px] ml-10"> 
-                        <ul>
-                                <li v-for="task in taskStore.tasks" :key="task.id" class="flex justify-between">
-                                        <span class="block">{{ task.title }}</span>
-                                        <!-- <span class="block">
+        <div id="dashboard-wrap">
+                <!-- ADD TASK -->
+                <div class="w-1/3 mx-auto border rounded-md mt-6">
+                        <form @submit.prevent="addTask" class="">
+                                <input type="text" v-model="title" placeholder="New task" class="border" required />
+                                <select v-model="priority" required>
+                                        <option selected hidden>Pick a priority</option>
+                                        <option value="1">High</option>
+                                        <option value="2">Medium</option>
+                                        <option value="3">Low</option>
+                                </select>
+                                <button class="block hover:font-bold">Add to the list</button>
+                        </form>
+                </div>
+                <!-- CONTROL SECTION -->
+                <div class="flex justify-between mx-auto w-1/3 mb-14">
+                        <button class="block hover:font-bold" @click="switchEdit">Edit</button>
+                        <button class="block">Sort</button>
+                </div>
+                <div class="flex justify-between caveat text-3xl mx-auto">
+                        <!-- BOX: PENDING / HIGH PRIORITY -->
+                        <div class="w-[380px] ml-10">
+                                <ul>
+                                        <li v-for="task in taskStore.tasksHighPrior" :key="task.id"
+                                                class="flex justify-between">
+                                                <span class="block">{{ task.title }}</span>
+                                                <!-- <span class="block">
                                         </span>
                                         <span class="block">
                                         </span> -->
-                                        <span class="block">
-                                                <!-- delete button -->
-                                                <img v-if="isEditing" src="../assets/images/trash.png"
-                                                        v-on:click="taskStore.deleteTask(task.id)" class="w-8" />
+                                                <span class="block">
+                                                        <!-- delete button -->
+                                                        <img v-if="isEditing" src="../assets/images/trash.png"
+                                                                v-on:click="taskStore.deleteTask(task.id)"
+                                                                class="w-8" />
+                                                </span>
+                                        </li>
+                                </ul>
+                        </div>
+                        <!-- BOX: PENDING / MEDIUM PRIORITY -->
+                        <div class="w-[380px] ml-10">
+                                <ul>
+                                        <li v-for="task in taskStore.tasksMedPrior" :key="task.id"
+                                                class="flex justify-between">
+                                                <span class="block">{{ task.title }}</span>
+                                                <!-- <span class="block">
                                         </span>
-                                </li>
-                        </ul>
-                </div>
-                <div class="w-[380px]">
-                        <ul>
-                                <li>testestestestest</li>
-                                <li>testestestestest</li>
-                                <li>testestestestest</li>
-                                <li>testestestestest</li>
-                                <li>testestestestest</li>
-                                <li>testestestestest</li>
-                        </ul>
-                </div>
-                <div class="w-[380px]">
-                        <ul>
-                                <li>testestestestest</li>
-                                <li>testestestestest</li>
-                                <li>testestestestest</li>
-                                <li>testestestestest</li>
-                                <li>testestestestest</li>
-                                <li>testestestestest</li>
-                        </ul>
-                </div>
-                <div v-if="showArchived" class="w-[380px] ">
-                        <ul>
-                                <li>testestestestest</li>
-                                <li>testestestestest</li>
-                                <li>testestestestest</li>
-                                <li>testestestestest</li>
-                                <li>testestestestest</li>
-                                <li>testestestestest</li>
-                        </ul>
+                                        <span class="block">
+                                        </span> -->
+                                                <span class="block">
+                                                        <!-- delete button -->
+                                                        <img v-if="isEditing" src="../assets/images/trash.png"
+                                                                v-on:click="taskStore.deleteTask(task.id)"
+                                                                class="w-8" />
+                                                </span>
+                                        </li>
+                                </ul>
+                        </div>
+                        <!-- BOX: PENDING / LOW PRIORITY -->
+                        <div class="w-[380px] ml-10">
+                                <ul>
+                                        <li v-for="task in taskStore.tasksLowPrior" :key="task.id"
+                                                class="flex justify-between">
+                                                <span class="block">{{ task.title }}</span>
+                                                <!-- <span class="block">
+                                        </span>
+                                        <span class="block">
+                                        </span> -->
+                                                <span class="block">
+                                                        <!-- delete button -->
+                                                        <img v-if="isEditing" src="../assets/images/trash.png"
+                                                                v-on:click="taskStore.deleteTask(task.id)"
+                                                                class="w-8" />
+                                                </span>
+                                        </li>
+                                </ul>
+                        </div>
+                        <!-- BOX: COMPLETED -->
+                        <div v-if="showArchived" class="w-[380px] ">
+                                <ul>
+                                        <li v-for="task in taskStore.completeTasks" :key="task.id"
+                                                class="flex justify-between">
+                                                <span class="block">{{ task.title }}</span>
+                                                <!-- <span class="block">
+                                        </span>
+                                        <span class="block">
+                                        </span> -->
+                                                <span class="block">
+                                                        <!-- delete button -->
+                                                        <img v-if="isEditing" src="../assets/images/trash.png"
+                                                                v-on:click="taskStore.deleteTask(task.id)"
+                                                                class="w-8" />
+                                                </span>
+                                        </li>
+                                </ul>
+                        </div>
                 </div>
         </div>
-</div>
 
 </template>
 
 <style scoped>
-
 #dashboard-wrap {
-        margin: 5rem ;
+        margin: 5rem;
 }
-
 </style>
