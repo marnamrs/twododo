@@ -7,9 +7,6 @@ export default defineStore("task", {
                         tasks: null,
                         completeTasks: [],
                         incompleteTasks: [],
-                        tasksHighPrior: [],
-                        tasksMedPrior: [],
-                        tasksLowPrior: [],
                 };
         },
         actions: {
@@ -46,13 +43,11 @@ export default defineStore("task", {
                                         case 3:
                                                 priorLow.push(pendingArr[i]);
                                                 break;
-                                }
+                                };
                         });
-                        this.completeTasks = completedArr;
+                        //this.completeTasks = completedArr;
                         this.incompleteTasks = pendingArr;
-                        this.tasksHighPrior = priorHigh;
-                        this.tasksMedPrior = priorMed;
-                        this.tasksLowPrior = priorLow;
+                        this.completeTasks = [priorHigh, priorMed, priorLow];
                 },
                 async createTask(userid, task, prior) {
                         const { error } = await supabase.from("tasks").insert({

@@ -60,57 +60,14 @@ export default {
                         <button class="block hover:font-bold" @click="switchEdit">Edit</button>
                         <button class="block">Sort</button>
                 </div>
+
                 <div class="flex justify-between caveat text-3xl mx-auto">
-                        <!-- BOX: PENDING / HIGH PRIORITY -->
-                        <div class="w-[380px] ml-10">
+                        <div v-for="(priority, index) in taskStore.completeTasks" :key="index" class="w-[380px] ml-10">
                                 <ul>
-                                        <li v-for="task in taskStore.tasksHighPrior" :key="task.id"
+                                        <li v-for="task in priority" :key="task.id"
                                                 class="flex justify-between">
                                                 <span class="block">{{ task.title }}</span>
-                                                <!-- <span class="block">
-                                        </span>
-                                        <span class="block">
-                                        </span> -->
                                                 <span class="block">
-                                                        <!-- delete button -->
-                                                        <img v-if="isEditing" src="../assets/images/trash.png"
-                                                                v-on:click="taskStore.deleteTask(task.id)"
-                                                                class="w-8" />
-                                                </span>
-                                        </li>
-                                </ul>
-                        </div>
-                        <!-- BOX: PENDING / MEDIUM PRIORITY -->
-                        <div class="w-[380px] ml-10">
-                                <ul>
-                                        <li v-for="task in taskStore.tasksMedPrior" :key="task.id"
-                                                class="flex justify-between">
-                                                <span class="block">{{ task.title }}</span>
-                                                <!-- <span class="block">
-                                        </span>
-                                        <span class="block">
-                                        </span> -->
-                                                <span class="block">
-                                                        <!-- delete button -->
-                                                        <img v-if="isEditing" src="../assets/images/trash.png"
-                                                                v-on:click="taskStore.deleteTask(task.id)"
-                                                                class="w-8" />
-                                                </span>
-                                        </li>
-                                </ul>
-                        </div>
-                        <!-- BOX: PENDING / LOW PRIORITY -->
-                        <div class="w-[380px] ml-10">
-                                <ul>
-                                        <li v-for="task in taskStore.tasksLowPrior" :key="task.id"
-                                                class="flex justify-between">
-                                                <span class="block">{{ task.title }}</span>
-                                                <!-- <span class="block">
-                                        </span>
-                                        <span class="block">
-                                        </span> -->
-                                                <span class="block">
-                                                        <!-- delete button -->
                                                         <img v-if="isEditing" src="../assets/images/trash.png"
                                                                 v-on:click="taskStore.deleteTask(task.id)"
                                                                 class="w-8" />
