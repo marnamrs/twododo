@@ -43,11 +43,11 @@ export default defineStore("task", {
                                         case 3:
                                                 priorLow.push(pendingArr[i]);
                                                 break;
-                                };
+                                }
                         });
-                        //this.completeTasks = completedArr;
-                        this.incompleteTasks = pendingArr;
-                        this.completeTasks = [priorHigh, priorMed, priorLow];
+                        this.completeTasks = completedArr;
+                        this.incompleteTasks = [priorHigh, priorMed, priorLow];
+                        
                 },
                 async createTask(userid, task, prior) {
                         const { error } = await supabase.from("tasks").insert({

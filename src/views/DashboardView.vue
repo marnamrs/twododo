@@ -62,7 +62,8 @@ export default {
                 </div>
 
                 <div class="flex justify-between caveat text-3xl mx-auto">
-                        <div v-for="(priority, index) in taskStore.completeTasks" :key="index" class="w-[380px] ml-10">
+                        <!-- BOXES: INCOMPLETE BY PRIORITY -->
+                        <div v-for="(priority, index) in taskStore.incompleteTasks" :key="index" class="w-[380px] ml-10">
                                 <ul>
                                         <li v-for="task in priority" :key="task.id"
                                                 class="flex justify-between">
