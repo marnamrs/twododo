@@ -11,7 +11,7 @@ export default {
                         status: null,
                         priority: null,
                         isEditing: false, // when true, show edit options
-                        showArchived: true, // when true, show completed tasks
+                        showArchived: false, // when true, show completed tasks
                 }
         },
         mounted() {
@@ -31,6 +31,11 @@ export default {
                                 this.isEditing = true;
                         } else { this.isEditing = false }
                 },
+                showArchive() {
+                        if (this.showArchived === false) {
+                                this.showArchived= true;
+                        } else { this.showArchived = false }
+                }
         },
         computed: {
                 ...mapStores(userStore, taskStore),
@@ -58,6 +63,7 @@ export default {
                 <!-- CONTROL SECTION -->
                 <div class="flex justify-between mx-auto w-1/3 mb-14">
                         <button class="block hover:font-bold" @click="switchEdit">Edit</button>
+                        <button class="block hover:font-bold" @click="showArchive">Archive</button>
                         <button class="block">Sort</button>
                 </div>
 

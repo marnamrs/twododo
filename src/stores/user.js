@@ -81,6 +81,7 @@ export default defineStore("user", {
                                 throw error;
                         } else {
                                 this.user = null;
+                                this.$router.push({path: "/", replace: true});
                         }
                 },
 
