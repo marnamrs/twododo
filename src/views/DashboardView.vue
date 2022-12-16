@@ -10,13 +10,10 @@ export default {
                         title: null,
                         status: null,
                         priority: null,
-                        isEditing: false, //when true, change title to input and show edit options
-                        archived: false, // when true, show completed  list
+                        isEditing: false, // when true, show edit options
+                        showArchived: true, // when true, show completed tasks
                 }
         },
-        // beforeMount() {
-        //         this.checkLog()
-        // },
         mounted() {
                 this.taskStore.fetchTasks();
         },
@@ -70,12 +67,10 @@ export default {
                         <ul>
                                 <li v-for="task in taskStore.tasks" :key="task.id" class="flex justify-between">
                                         <span class="block">{{ task.title }}</span>
-                                        <span class="block">
-                                                <!-- priority -->
+                                        <!-- <span class="block">
                                         </span>
                                         <span class="block">
-                                                <!-- edit button -->
-                                        </span>
+                                        </span> -->
                                         <span class="block">
                                                 <!-- delete button -->
                                                 <img v-if="isEditing" src="../assets/images/trash.png"
@@ -104,7 +99,7 @@ export default {
                                 <li>testestestestest</li>
                         </ul>
                 </div>
-                <div class="w-[380px] ">
+                <div v-if="showArchived" class="w-[380px] ">
                         <ul>
                                 <li>testestestestest</li>
                                 <li>testestestestest</li>
