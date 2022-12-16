@@ -27,8 +27,6 @@ export default defineStore("task", {
                         this.fetchTasks();
                 },
                 async deleteTask(id) {
-                        console.log("in delete function");
-                        console.log('id: ' + id)
                         const { error } = await supabase
                                 .from("tasks")
                                 .delete("*")

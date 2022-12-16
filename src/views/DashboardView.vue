@@ -37,9 +37,9 @@ export default {
         },
         computed: {
                 ...mapStores(userStore, taskStore),
-                sortTasks() {
-                        return ('something')
-                },
+                // sortTasks() {
+                //         return ('something')
+                // },
         },
 }
 
