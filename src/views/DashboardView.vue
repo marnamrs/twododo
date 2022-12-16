@@ -33,7 +33,7 @@ export default {
                 },
                 showArchive() {
                         if (this.showArchived === false) {
-                                this.showArchived= true;
+                                this.showArchived = true;
                         } else { this.showArchived = false }
                 }
         },
@@ -49,7 +49,7 @@ export default {
         <div id="dashboard-wrap">
                 <!-- ADD TASK -->
                 <div class="w-1/3 mx-auto border rounded-md mt-6">
-                        <form @submit.prevent="addTask" class="">
+                        <form @submit.prevent="addTask">
                                 <input type="text" v-model="title" placeholder="New task" class="border" required />
                                 <select v-model="priority" required>
                                         <option selected hidden>Pick a priority</option>
@@ -60,11 +60,21 @@ export default {
                                 <button class="block hover:font-bold">Add to the list</button>
                         </form>
                 </div>
-                <!-- CONTROL SECTION -->
-                <div class="flex justify-between mx-auto w-1/3 mb-14">
-                        <button class="block hover:font-bold" @click="switchEdit">Edit</button>
-                        <button class="block hover:font-bold" @click="showArchive">Archive</button>
-                        <button class="block">Sort</button>
+
+                <!-- BUTTONS SECTION -->
+                <div class="flex justify-between mx-auto w-1/3 mt-6 mb-10">
+                        <div class="hover-wrap">
+                                <button @click="switchEdit" class="caveat text-2xl">
+                                        <img src="../assets/images/pencil.png" placeholder="Edit" class="w-10" />
+                                        <p>Edit</p>
+                                </button>
+                        </div>
+                        <div class="hover-wrap">
+                                <button class="block hover:font-bold" @click="showArchive">Archive</button>
+                        </div>
+                        <div class="hover-wrap">
+                                <button class="block">Sort</button>
+                        </div>
                 </div>
 
                 <div id="boxes-wrap" class="flex justify-between caveat text-3xl mx-auto">
@@ -72,7 +82,8 @@ export default {
                         <div id="list-wrap" v-for="(priority, index) in taskStore.incompleteTasks" :key="index"
                                 class="content-box">
                                 <ul>
-                                        <li v-for="task in priority" :key="task.id" class="flex justify-between cursor-pointer hover:line-through">
+                                        <li v-for="task in priority" :key="task.id"
+                                                class="flex justify-between cursor-pointer hover:line-through">
                                                 <span class="block">{{ task.title }}</span>
                                                 <span class="block">
                                                         <img v-if="isEditing" src="../assets/images/trash.png"
@@ -83,7 +94,8 @@ export default {
                                 </ul>
                         </div>
                         <!-- BOX: COMPLETED -->
-                        <div id="archived-wrap" v-if="showArchived" class="content-box line-through decoration-3 decoration-black/50">
+                        <div id="archived-wrap" v-if="showArchived"
+                                class="content-box line-through decoration-3 decoration-black/50">
                                 <ul>
                                         <li v-for="task in taskStore.completeTasks" :key="task.id"
                                                 class="flex justify-between">
@@ -110,8 +122,8 @@ export default {
         height: 40vh;
         width: 20vw;
         max-width: 24rem;
-        min-width: 18rem;
-        margin: auto;
+        min-width: 20rem;
+        margin: 1rem;
         padding: 1.5rem;
         background-color: rgb(245, 245, 245);
 
@@ -122,7 +134,15 @@ export default {
         border-bottom-right-radius: 225px 15px;
         border-bottom-left-radius: 15px 255px;
 
-        box-shadow: 5px 10px 10px rgb(110, 110, 110); 
+        box-shadow: 5px 10px 10px rgb(110, 110, 110);
+}
+
+.hover-wrap p {
+        visibility: hidden;
+}
+
+.hover-wrap:hover p {
+        visibility: visible;
 }
 
 @media(max-width: 1200px) {
