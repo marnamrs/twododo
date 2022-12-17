@@ -48,9 +48,10 @@ export default {
 
         <div id="dashboard-wrap">
                 <!-- ADD TASK -->
-                <div class="w-1/3 mx-auto border rounded-md mt-6">
+                <div id="form-wrap" class="w-1/3 mx-auto mt-6">
                         <form @submit.prevent="addTask">
-                                <input type="text" v-model="title" placeholder="New task" class="border" required />
+                                <input type="text" v-model="title" placeholder="New task"
+                                        class="w-[95%] h-10 drawn-border" required />
                                 <select v-model="priority" required>
                                         <option selected hidden>Pick a priority</option>
                                         <option value="1">High</option>
@@ -95,11 +96,11 @@ export default {
                         </div>
                         <!-- BOX: COMPLETED -->
                         <div id="archived-wrap" v-if="showArchived"
-                                class="content-box line-through decoration-3 decoration-black/50">
+                                class="content-box decoration-3 decoration-black/50">
                                 <ul>
                                         <li v-for="task in taskStore.completeTasks" :key="task.id"
                                                 class="flex justify-between">
-                                                <span class="block">{{ task.title }}</span>
+                                                <span class="block striked">{{ task.title }}</span>
                                                 <span class="block">
                                                         <img v-if="isEditing" src="../assets/images/trash.png"
                                                                 v-on:click="taskStore.deleteTask(task.id)"
@@ -118,11 +119,21 @@ export default {
         margin: 5rem;
 }
 
+.drawn-border {
+        box-sizing: border-box;
+        border: solid 3px rgb(207, 207, 207);
+        border-top-left-radius: 60px 220px;
+        border-top-right-radius: 220px 60px;
+        border-bottom-right-radius: 225px 15px;
+        border-bottom-left-radius: 15px 255px;
+}
+
 .content-box {
-        height: 40vh;
-        width: 20vw;
-        max-width: 24rem;
-        min-width: 20rem;
+        height: auto;
+        min-height: 40vh;
+        width: 25vw;
+        max-width: 30rem;
+        min-width: 15rem;
         margin: 1rem;
         padding: 1.5rem;
         background-color: rgb(245, 245, 245);
@@ -145,11 +156,44 @@ export default {
         visibility: visible;
 }
 
+.striked {
+        position: relative;
+}
+
+.striked::before {
+        position: absolute;
+        content: "";
+        left: -2px;
+        top: 55%;
+        right: -10px;
+        border-top: 2px solid rgba(0, 0, 0, 0.658) !important;
+        border-color: inherit;
+        -webkit-transform: rotate(-5deg);
+        -moz-transform: rotate(-5deg);
+        -ms-transform: rotate(-5deg);
+        -o-transform: rotate(-5deg);
+        transform: rotate(-1deg);
+}
+
 @media(max-width: 1200px) {
+        #dashboard-wrap {
+                margin: 1rem;
+        }
+
+        #form-wrap {
+                min-width: 80vw;
+        }
+
         #boxes-wrap {
                 flex-direction: column;
                 justify-content: space-around;
                 align-items: center;
+        }
+
+        .content-box {
+                min-width: 80vw;
+                margin-bottom: 2rem;
+                min-height: 20vh;
         }
 
         #list-wrap,
