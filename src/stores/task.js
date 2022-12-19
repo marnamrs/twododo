@@ -47,7 +47,6 @@ export default defineStore("task", {
                         });
                         this.completeTasks = completedArr;
                         this.incompleteTasks = [priorHigh, priorMed, priorLow];
-                        
                 },
                 async createTask(userid, task, prior) {
                         const { error } = await supabase.from("tasks").insert({
@@ -72,18 +71,34 @@ export default defineStore("task", {
                         }
                         this.fetchTasks();
                 },
-                async editTask(id, newtitle, newpriority) {
-                        const { error } = await supabase
-                                .from("tasks")
-                                .update({
-                                        title: newtitle,
-                                        priority: newpriority,
-                                })
-                                .eq("id", id);
-                        if (error) {
-                                alert(error.message);
-                                throw error;
-                        }
+                async editTask(allChanges) {
+                        //a edit task llega un array de objetos
+                        //cada obj tiene siempre id
+                        //cada obj puede tener newtitle / newpriority
+                        allChanges.forEach(async (change) => {
+                                const { error } = await supabase
+                                        .from("tasks")
+                                        .update({
+                                                title: change.title,
+                                                priority: change.priority,
+                                        })
+                                        .eq("id", change.id);
+                                if (error) {
+                                        alert(error.message);
+                                        throw error;
+                                }
+                        });
+                        // const { error } = await supabase
+                        //         .from("tasks")
+                        //         .update({
+                        //                 title: newtitle,
+                        //                 priority: newpriority,
+                        //         })
+                        //         .eq("id", id);
+                        // if (error) {
+                        //         alert(error.message);
+                        //         throw error;
+                        // }
                         this.fetchTasks();
                 },
         },

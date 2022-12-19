@@ -35,7 +35,10 @@ export default {
                         if (this.showArchived === false) {
                                 this.showArchived = true;
                         } else { this.showArchived = false }
-                }
+                },
+                checkImportance(priority) {
+                        return priority == 1 ? true : false;
+                },
         },
         computed: {
                 ...mapStores(userStore, taskStore),
@@ -45,54 +48,76 @@ export default {
 </script>
 
 <template>
-
         <div id="dashboard-wrap">
                 <!-- ADD TASK -->
-                <div id="form-wrap" class="w-1/3 mx-auto mt-6">
+                <div id="form-wrap" class="w-1/3 min-w-max mx-auto mt-6">
                         <form @submit.prevent="addTask">
                                 <input type="text" v-model="title" placeholder="New task"
-                                        class="w-[95%] h-10 drawn-border" required />
-                                <select v-model="priority" required>
-                                        <option selected hidden>Pick a priority</option>
-                                        <option value="1">High</option>
-                                        <option value="2">Medium</option>
-                                        <option value="3">Low</option>
-                                </select>
-                                <button class="block hover:font-bold">Add to the list</button>
+                                        class="w-[95%] h-10 drawn-border focus:outline-none focus:bg-slate-50"
+                                        required />
+                                <div class="flex justify-between whitespace-nowrap mx-auto mb-8 px-4">
+                                        <p class="caveat  text-3xl font-semibold">How important is it?</p>
+                                        <div class="flex">
+                                                <div class="caveat text-3xl mx-2"> <input type="radio" id="highpriority"
+                                                                name="priority" value="1" />
+                                                        <label for="highpriority" class="px-2">Extra</label>
+                                                </div>
+                                                <div class="caveat text-3xl mx-2"> <input type="radio" id="medpriority"
+                                                                name="priority" value="2" checked />
+                                                        <label for="medpriority" class="px-2">Normal</label>
+                                                </div>
+                                                <div class="caveat text-3xl mx-2"> <input type="radio" id="lowpriority"
+                                                                name="priority" value="3" />
+                                                        <label for="lowpriority" class="px-2">Not much</label>
+                                                </div>
+                                        </div>
+                                </div>
+                                <button
+                                        class="block caveat text-3xl bg-gray-100 px-10 py-2 rounded-lg mx-auto">Add</button>
                         </form>
                 </div>
 
                 <!-- BUTTONS SECTION -->
-                <div class="flex justify-between mx-auto w-1/3 mt-6 mb-10">
+                <div class="flex justify-between mx-auto w-[25%] mt-6 mb-10">
                         <div class="hover-wrap">
                                 <button @click="switchEdit" class="caveat text-2xl">
-                                        <img src="../assets/images/pencil.png" placeholder="Edit" class="w-10" />
+                                        <img src="../assets/images/pencil.png" placeholder="Edit" class="w-14" />
                                         <p>Edit</p>
                                 </button>
                         </div>
                         <div class="hover-wrap">
-                                <button class="block hover:font-bold" @click="showArchive">Archive</button>
+                                <button @click="showArchive" class="caveat text-2xl">
+                                        <img src="../assets/images/bag.png" placeholder="Archive" class="w-14" />
+                                        <p>Archive</p>
+                                </button>
                         </div>
                         <div class="hover-wrap">
-                                <button class="block">Sort</button>
+                                <button class="caveat text-2xl">
+                                        <img src="../assets/images/presentation.png" placeholder="Sort" class="w-14" />
+                                        <p>Sort</p>
+                                </button>
                         </div>
                 </div>
 
                 <div id="boxes-wrap" class="flex justify-between caveat text-3xl mx-auto">
                         <!-- BOXES: INCOMPLETE BY PRIORITY -->
-                        <div id="list-wrap" v-for="(priority, index) in taskStore.incompleteTasks" :key="index"
-                                class="content-box">
+                        <div id="list-wrap" v-for="prioritylist in taskStore.incompleteTasks"
+                                :key="prioritylist[0].priority" class="content-box" :class="{'important': checkImportance(prioritylist[0].priority)}">
                                 <ul>
-                                        <li v-for="task in priority" :key="task.id"
-                                                class="flex justify-between cursor-pointer hover:line-through">
-                                                <span class="block">{{ task.title }}</span>
+                                        <li v-for="task in prioritylist" :key="task.id"
+                                                class="flex justify-between cursor-pointer hover:line-through leading-loose">
+                                                <span class="block"> >{{ task.title }}</span>
                                                 <span class="block">
                                                         <img v-if="isEditing" src="../assets/images/trash.png"
                                                                 v-on:click="taskStore.deleteTask(task.id)"
-                                                                class="w-8" />
+                                                                class="w-12" />
                                                 </span>
                                         </li>
                                 </ul>
+                                <!-- <div v-if="checkImportance(prioritylist[0].priority)" class="flex justify-end mt-10">
+                                                <img src="../assets/images/bg-highpriority.png"
+                                                        class="h-24 opacity-60" />
+                                        </div> -->
                         </div>
                         <!-- BOX: COMPLETED -->
                         <div id="archived-wrap" v-if="showArchived"
@@ -119,24 +144,44 @@ export default {
         margin: 5rem;
 }
 
-.drawn-border {
+#form-wrap {
+        padding: 2rem;
         box-sizing: border-box;
-        border: solid 3px rgb(207, 207, 207);
-        border-top-left-radius: 60px 220px;
-        border-top-right-radius: 220px 60px;
+        border: solid 3px rgb(75, 75, 75);
+        border-top-left-radius: 225px 20px;
+        border-top-right-radius: 20px 225px;
         border-bottom-right-radius: 225px 15px;
         border-bottom-left-radius: 15px 255px;
+
+        box-shadow: 5px 10px 10px rgba(78, 78, 78, 0.863);
+}
+
+.drawn-border {
+        box-sizing: border-box;
+        border-bottom: solid 3px rgb(133, 133, 133);
+        border-bottom-right-radius: 225px 15px;
+        border-bottom-left-radius: 15px 255px;
+        margin-bottom: 1rem;
+}
+
+.important {
+        background-color: rgb(255, 214, 207) !important;
+        background-image: url(../assets/images/bg-red-important-exlamations.png);
+        background-position: right bottom;
+        background-repeat: no-repeat;
+        background-size: 50%;
+        background-blend-mode: overlay;
 }
 
 .content-box {
         height: auto;
-        min-height: 40vh;
-        width: 25vw;
-        max-width: 30rem;
-        min-width: 15rem;
+        min-height: 35vh;
+        width: 30vw;
+        max-width: 35rem;
+        min-width: 20rem;
         margin: 1rem;
         padding: 1.5rem;
-        background-color: rgb(245, 245, 245);
+        background-color: rgb(255, 247, 200);
 
         box-sizing: border-box;
         border: solid 3px rgb(75, 75, 75);
