@@ -12,7 +12,8 @@ export default {
                         changes: [],
                         status: null,
                         priority: null,
-                        isEditing: false, // when true, show edit options
+                        isEditing: false, // when true, task is editable
+                        optionsVisible: false, // when true, show edit options
                         showArchived: false, // when true, show completed tasks
                 }
         },
@@ -28,14 +29,20 @@ export default {
                         );
                         this.title = null;
                 },
-                saveChanges(id, title) {
-                        let change = {
-                                "id" : id,
-                                "title": title,
-                        };
-                        this.changes.push(change);
-                        console.log(this.changes);
-                        this.taskStore.editTask(this.changes);
+                // saveChanges(id, title) {
+                //         // let change = {
+                //         //         "id" : id,
+                //         //         "title": title,
+                //         // // };
+                //         // this.changes.push(id, title);
+                //         // console.log(this.changes);
+                //         this.taskStore.editTask(id, title);
+                // },
+                switchOptions() {
+                        if (this.optionsVisible === false) {
+                                this.optionsVisible = true;
+                        } else { this.optionsVisible = false }
+                        if (this.isEditing == true) { this.isEditing = false }
                 },
                 switchEdit() {
                         if (this.isEditing === false) {
@@ -71,22 +78,22 @@ export default {
                                         required />
                                 <div id="priority-wrap"
                                         class="flex justify-between whitespace-nowrap mx-auto mb-8 px-4">
-                                        <p class="caveat  text-2xl font-semibold">How important is it?</p>
+                                        <p class="caveat  text-2xl font-semibold">Set a priority:</p>
                                         <div class="flex">
                                                 <div class="caveat text-2xl mx-2 px-2 rounded-lg hover:bg-red-50">
                                                         <input type="radio" id="highpriority" v-model="priority"
                                                                 value="1" />
-                                                        <label for="highpriority" class="px-2">Extra</label>
+                                                        <label for="highpriority" class="px-2">High</label>
                                                 </div>
                                                 <div class="caveat text-2xl mx-2 px-2 rounded-lg hover:bg-yellow-50">
                                                         <input type="radio" id="medpriority" v-model="priority"
                                                                 value="2" checked />
-                                                        <label for="medpriority" class="px-2">Normal</label>
+                                                        <label for="medpriority" class="px-2">Medium</label>
                                                 </div>
                                                 <div class="caveat text-2xl mx-2 px-2 rounded-lg hover:bg-lime-50">
                                                         <input type="radio" id="lowpriority" v-model="priority"
                                                                 value="3" />
-                                                        <label for="lowpriority" class="px-2">Not much</label>
+                                                        <label for="lowpriority" class="px-2">Low</label>
                                                 </div>
                                         </div>
                                 </div>
@@ -98,6 +105,12 @@ export default {
                 <!-- BUTTONS SECTION -->
                 <div id="buttons-wrap" class="flex justify-between align-center mx-auto w-[25%] mt-6 mb-6">
                         <div class="hover-wrap">
+                                <button @click="switchOptions" class="caveat text-2xl">
+                                        <img src="../assets/images/gear.png" placeholder="Edit" class="w-12" />
+                                        <p>Options</p>
+                                </button>
+                        </div>
+                        <div v-if="optionsVisible" class="hover-wrap">
                                 <button @click="switchEdit" class="caveat text-2xl">
                                         <img src="../assets/images/pencil.png" placeholder="Edit" class="w-12" />
                                         <p>Edit</p>
@@ -109,18 +122,16 @@ export default {
                                         <p>Archive</p>
                                 </button>
                         </div>
-                        <div class="hover-wrap">
+                        <!-- <div class="hover-wrap">
                                 <button class="caveat text-2xl">
                                         <img src="../assets/images/presentation.png" placeholder="Sort" class="w-12" />
                                         <p>Sort</p>
                                 </button>
-                        </div>
+                        </div> -->
                 </div>
-                <div v-if="isEditing">
-                        <button @click="saveChanges"
-                                        class="block caveat text-3xl bg-gray-100 px-10 py-2 rounded-lg mx-auto">Save all Changes</button>
-                        <p class="!text-[.8rem] mt-[.5rem] text-center text-gray-400">*click on a task to edit its
-                                content</p>
+                <div v-if="optionsVisible">
+                        <p class="!text-[.8rem] mt-[.5rem] text-center text-gray-400 italic">*click on the edit button
+                                to change the task content. Remember to save all your changes!</p>
                 </div>
 
                 <div id="boxes-wrap" class="flex justify-between caveat text-3xl mx-auto">
@@ -128,25 +139,43 @@ export default {
                         <div id="list-wrap" v-for="prioritylist in taskStore.incompleteTasks"
                                 :key="prioritylist[0].priority" class="content-box"
                                 :class="{ 'important': checkImportance(prioritylist[0].priority), 'notimportant': checkIrrelevance(prioritylist[0].priority) }">
+                                <i v-if="checkImportance(prioritylist[0].priority)"
+                                        class="font-extrabold !text-2xl">High priority:</i>
+                                <i v-if="checkIrrelevance(prioritylist[0].priority)"
+                                        class="font-extrabold !text-2xl">Low priority:</i>
                                 <ul>
                                         <li v-for="task in prioritylist" :key="task.id"
-                                                class="flex justify-between cursor-pointer  leading-loose">
-                                                <span v-if="!isEditing"
+                                                class="flex justify-between leading-loose">
+                                                <!-- LIST ITEM / INPUT FIELD -->
+
+                                                <span v-if="!isEditing && !optionsVisible"
                                                         v-on:click="taskStore.toggleStatus(task.id, task.status)"
-                                                        class="block hover:line-through"> > {{ task.title }}</span>
-                                                <span v-if="isEditing" contenteditable="true" 
-                                                        class="block focus:outline-none focus:font-bold"> > {{
+                                                        class="block cursor-pointer  hover:line-through"> > {{
                                                                         task.title
                                                         }}</span>
-                                                <!-- <input v-else type="text" :placeholder="task.title" v-model="newtitle"
-                                                        class="block bg-transparent border-none " /> -->
-                                                <span class="flex">
-                                                        <img v-if="isEditing" @click="saveChanges(task.id, task.title)"
+
+                                                <span v-if="optionsVisible && !isEditing" class="block"> > {{ task.title
+                                                }}</span>
+
+                                                <input v-if="optionsVisible && isEditing" type="text"
+                                                        v-model="task.title"
+                                                        class="block bg-transparent border-b border-b-black border-dashed" />
+
+                                                <span class="flex items-center">
+                                                        <!-- EDIT OPTIONS -->
+                                                        <!-- EDIT TASK -->
+                                                        <!-- <img v-if="optionsVisible && !isEditing" @click="switchEdit"
+                                                                src="../assets/images/pencil.png"
+                                                                class="block h-6 mx-2 hover:h-8" /> -->
+                                                        <!-- SAVE CHANGES -->
+                                                        <img v-if="optionsVisible && isEditing"
+                                                                @click="this.taskStore.editTask(task.id, task.title); switchEdit()"
                                                                 src="../assets/images/floppy-disc.png"
-                                                                class="block h-6 px-2" />
-                                                        <img v-if="isEditing" src="../assets/images/dustbin.png"
+                                                                class="block h-6 mx-2 hover:h-8" />
+                                                        <!-- DELETE -->
+                                                        <img v-if="optionsVisible" src="../assets/images/dustbin.png"
                                                                 v-on:click="taskStore.deleteTask(task.id)"
-                                                                class="block h-6 px-2" />
+                                                                class="block h-6 hover:h-8" />
                                                 </span>
                                         </li>
                                 </ul>
