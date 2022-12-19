@@ -8,8 +8,6 @@ export default {
                 return {
                         id: null,
                         title: null,
-                        // newtitle: null,
-                        changes: [],
                         status: null,
                         priority: null,
                         isEditing: false, // when true, task is editable
@@ -29,15 +27,12 @@ export default {
                         );
                         this.title = null;
                 },
-                // saveChanges(id, title) {
-                //         // let change = {
-                //         //         "id" : id,
-                //         //         "title": title,
-                //         // // };
-                //         // this.changes.push(id, title);
-                //         // console.log(this.changes);
-                //         this.taskStore.editTask(id, title);
-                // },
+                findPriority(obj){
+                        if (obj.length > 0) {
+                                return obj[0].priority;
+                        } 
+
+                },
                 switchOptions() {
                         if (this.optionsVisible === false) {
                                 this.optionsVisible = true;
@@ -87,7 +82,7 @@ export default {
                                                 </div>
                                                 <div class="caveat text-2xl mx-2 px-2 rounded-lg hover:bg-yellow-50">
                                                         <input type="radio" id="medpriority" v-model="priority"
-                                                                value="2" checked />
+                                                                value="2"/>
                                                         <label for="medpriority" class="px-2">Medium</label>
                                                 </div>
                                                 <div class="caveat text-2xl mx-2 px-2 rounded-lg hover:bg-lime-50">
@@ -122,12 +117,7 @@ export default {
                                         <p>Archive</p>
                                 </button>
                         </div>
-                        <!-- <div class="hover-wrap">
-                                <button class="caveat text-2xl">
-                                        <img src="../assets/images/presentation.png" placeholder="Sort" class="w-12" />
-                                        <p>Sort</p>
-                                </button>
-                        </div> -->
+
                 </div>
                 <div v-if="optionsVisible">
                         <p class="!text-[.8rem] mt-[.5rem] text-center text-gray-400 italic">*click on the edit button
@@ -136,12 +126,12 @@ export default {
 
                 <div id="boxes-wrap" class="flex justify-between caveat text-3xl mx-auto">
                         <!-- BOXES: INCOMPLETE BY PRIORITY -->
-                        <div id="list-wrap" v-for="prioritylist in taskStore.incompleteTasks"
-                                :key="prioritylist[0].priority" class="content-box"
-                                :class="{ 'important': checkImportance(prioritylist[0].priority), 'notimportant': checkIrrelevance(prioritylist[0].priority) }">
-                                <i v-if="checkImportance(prioritylist[0].priority)"
+                        <div id="list-wrap" v-for="(prioritylist, index) in taskStore.incompleteTasks"
+                                :key="index" class="content-box"
+                                :class="{ 'important': checkImportance(findPriority(prioritylist)), 'notimportant': checkIrrelevance(findPriority(prioritylist)) }">
+                                <i v-if="checkImportance(findPriority(prioritylist))"
                                         class="font-extrabold !text-2xl">High priority:</i>
-                                <i v-if="checkIrrelevance(prioritylist[0].priority)"
+                                <i v-if="checkIrrelevance(findPriority(prioritylist))"
                                         class="font-extrabold !text-2xl">Low priority:</i>
                                 <ul>
                                         <li v-for="task in prioritylist" :key="task.id"
@@ -162,11 +152,6 @@ export default {
                                                         class="block bg-transparent border-b border-b-black border-dashed" />
 
                                                 <span class="flex items-center">
-                                                        <!-- EDIT OPTIONS -->
-                                                        <!-- EDIT TASK -->
-                                                        <!-- <img v-if="optionsVisible && !isEditing" @click="switchEdit"
-                                                                src="../assets/images/pencil.png"
-                                                                class="block h-6 mx-2 hover:h-8" /> -->
                                                         <!-- SAVE CHANGES -->
                                                         <img v-if="optionsVisible && isEditing"
                                                                 @click="this.taskStore.editTask(task.id, task.title); switchEdit()"

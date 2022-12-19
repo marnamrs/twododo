@@ -25,6 +25,7 @@ export default defineStore("task", {
                         const priorHigh = [];
                         const priorMed = [];
                         const priorLow = [];
+
                         tasksArray.find((task, i) => {
                                 if (task.status === 0) {
                                         completedArr.push(tasksArray[i]);
@@ -32,21 +33,47 @@ export default defineStore("task", {
                                         pendingArr.push(tasksArray[i]);
                                 }
                         });
-                        pendingArr.find((task, i) => {
-                                switch (task.priority) {
-                                        case 1:
-                                                priorHigh.push(pendingArr[i]);
-                                                break;
-                                        case 2:
-                                                priorMed.push(pendingArr[i]);
-                                                break;
-                                        case 3:
-                                                priorLow.push(pendingArr[i]);
-                                                break;
-                                }
-                        });
+
                         this.completeTasks = completedArr;
-                        this.incompleteTasks = [priorHigh, priorMed, priorLow];
+                        if (pendingArr.length > 0) {
+                                pendingArr.find((task, i) => {
+                                        switch (task.priority) {
+                                                case 1:
+                                                        priorHigh.push(
+                                                                pendingArr[i]
+                                                        );
+                                                        break;
+                                                case 2:
+                                                        priorMed.push(
+                                                                pendingArr[i]
+                                                        );
+                                                        break;
+                                                case 3:
+                                                        priorLow.push(
+                                                                pendingArr[i]
+                                                        );
+                                                        break;
+                                        }
+                                });
+                        }
+                        console.log('1');
+                        console.log(this.incompleteTasks);
+                        this.incompleteTasks = [];
+                        if (priorHigh.length > 0) {
+                                this.incompleteTasks.push(priorHigh)
+                        }
+                        if (priorMed.length > 0) {
+                                this.incompleteTasks.push(priorMed)
+                        }
+                        if (priorLow.length > 0) {
+                                this.incompleteTasks.push(priorLow)
+                        }
+                        // ???? la verificación hace que al crear nuevas tareas se generen extra cajas hasta hacer refresh
+
+                        // this.incompleteTasks = [priorHigh, priorMed, priorLow];
+                        console.log('2');
+                        console.log(this.incompleteTasks);
+                        //asignacion directa da problemas con nuevo user sin tareas
                 },
                 async createTask(userid, task, prior) {
                         const { error } = await supabase.from("tasks").insert({
@@ -88,7 +115,7 @@ export default defineStore("task", {
                         //                 throw error;
                         //         }
                         // });
-                        console.log('id: ' + id)
+                        console.log("id: " + id);
                         const { error } = await supabase
                                 .from("tasks")
                                 .update({
@@ -102,10 +129,10 @@ export default defineStore("task", {
                         }
                         this.fetchTasks();
                 },
-                async toggleStatus (id, status) {
-                        console.log(status)
-                        const newstatus = status == 1? 0 : 1;
-                        console.log(newstatus)
+                async toggleStatus(id, status) {
+                        console.log(status);
+                        const newstatus = status == 1 ? 0 : 1;
+                        console.log(newstatus);
                         const { error } = await supabase
                                 .from("tasks")
                                 .update({
@@ -117,6 +144,6 @@ export default defineStore("task", {
                                 throw error;
                         }
                         this.fetchTasks();
-                }
+                },
         },
 });
