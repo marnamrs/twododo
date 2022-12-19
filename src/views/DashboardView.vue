@@ -20,7 +20,7 @@ export default {
         methods: {
                 addTask() {
                         const userid = this.userStore.user.id;
-                        console.log('id: ' + userid)
+
                         this.taskStore.createTask(
                                 userid, this.title, this.priority,
                         );
@@ -50,24 +50,25 @@ export default {
 <template>
         <div id="dashboard-wrap">
                 <!-- ADD TASK -->
-                <div id="form-wrap" class="w-1/3 min-w-max mx-auto mt-6">
+                <div id="form-wrap" class="w-1/3 min-w-max mx-auto mt-2">
                         <form @submit.prevent="addTask">
                                 <input type="text" v-model="title" placeholder="New task"
                                         class="w-[95%] h-10 drawn-border focus:outline-none focus:bg-slate-50"
                                         required />
-                                <div class="flex justify-between whitespace-nowrap mx-auto mb-8 px-4">
-                                        <p class="caveat  text-3xl font-semibold">How important is it?</p>
+                                <div id="priority-wrap"
+                                        class="flex justify-between whitespace-nowrap mx-auto mb-8 px-4">
+                                        <p class="caveat  text-2xl font-semibold">How important is it?</p>
                                         <div class="flex">
-                                                <div class="caveat text-3xl mx-2"> <input type="radio" id="highpriority"
-                                                                name="priority" value="1" />
+                                                <div class="caveat text-2xl mx-2"> <input type="radio" id="highpriority"
+                                                                v-model="priority" value="1" />
                                                         <label for="highpriority" class="px-2">Extra</label>
                                                 </div>
-                                                <div class="caveat text-3xl mx-2"> <input type="radio" id="medpriority"
-                                                                name="priority" value="2" checked />
+                                                <div class="caveat text-2xl mx-2"> <input type="radio" id="medpriority"
+                                                                v-model="priority" value="2" checked />
                                                         <label for="medpriority" class="px-2">Normal</label>
                                                 </div>
-                                                <div class="caveat text-3xl mx-2"> <input type="radio" id="lowpriority"
-                                                                name="priority" value="3" />
+                                                <div class="caveat text-2xl mx-2"> <input type="radio" id="lowpriority"
+                                                                v-model="priority" value="3" />
                                                         <label for="lowpriority" class="px-2">Not much</label>
                                                 </div>
                                         </div>
@@ -78,22 +79,22 @@ export default {
                 </div>
 
                 <!-- BUTTONS SECTION -->
-                <div class="flex justify-between mx-auto w-[25%] mt-6 mb-10">
+                <div class="flex justify-between mx-auto w-[25%] mt-6 mb-6">
                         <div class="hover-wrap">
                                 <button @click="switchEdit" class="caveat text-2xl">
-                                        <img src="../assets/images/pencil.png" placeholder="Edit" class="w-14" />
+                                        <img src="../assets/images/pencil.png" placeholder="Edit" class="w-12" />
                                         <p>Edit</p>
                                 </button>
                         </div>
                         <div class="hover-wrap">
                                 <button @click="showArchive" class="caveat text-2xl">
-                                        <img src="../assets/images/bag.png" placeholder="Archive" class="w-14" />
+                                        <img src="../assets/images/bag.png" placeholder="Archive" class="w-12" />
                                         <p>Archive</p>
                                 </button>
                         </div>
                         <div class="hover-wrap">
                                 <button class="caveat text-2xl">
-                                        <img src="../assets/images/presentation.png" placeholder="Sort" class="w-14" />
+                                        <img src="../assets/images/presentation.png" placeholder="Sort" class="w-12" />
                                         <p>Sort</p>
                                 </button>
                         </div>
@@ -102,22 +103,19 @@ export default {
                 <div id="boxes-wrap" class="flex justify-between caveat text-3xl mx-auto">
                         <!-- BOXES: INCOMPLETE BY PRIORITY -->
                         <div id="list-wrap" v-for="prioritylist in taskStore.incompleteTasks"
-                                :key="prioritylist[0].priority" class="content-box" :class="{'important': checkImportance(prioritylist[0].priority)}">
+                                :key="prioritylist[0].priority" class="content-box"
+                                :class="{ 'important': checkImportance(prioritylist[0].priority) }">
                                 <ul>
                                         <li v-for="task in prioritylist" :key="task.id"
                                                 class="flex justify-between cursor-pointer hover:line-through leading-loose">
-                                                <span class="block"> >{{ task.title }}</span>
+                                                <span class="block"> > {{ task.title }}</span>
                                                 <span class="block">
                                                         <img v-if="isEditing" src="../assets/images/trash.png"
                                                                 v-on:click="taskStore.deleteTask(task.id)"
-                                                                class="w-12" />
+                                                                class="w-10" />
                                                 </span>
                                         </li>
                                 </ul>
-                                <!-- <div v-if="checkImportance(prioritylist[0].priority)" class="flex justify-end mt-10">
-                                                <img src="../assets/images/bg-highpriority.png"
-                                                        class="h-24 opacity-60" />
-                                        </div> -->
                         </div>
                         <!-- BOX: COMPLETED -->
                         <div id="archived-wrap" v-if="showArchived"
@@ -140,8 +138,12 @@ export default {
 </template>
 
 <style scoped>
+* {
+        font-size: 1.4rem;
+}
+
 #dashboard-wrap {
-        margin: 5rem;
+        margin: 3rem;
 }
 
 #form-wrap {
@@ -169,7 +171,7 @@ export default {
         background-image: url(../assets/images/bg-red-important-exlamations.png);
         background-position: right bottom;
         background-repeat: no-repeat;
-        background-size: 50%;
+        background-size: 170px;
         background-blend-mode: overlay;
 }
 
@@ -182,6 +184,7 @@ export default {
         margin: 1rem;
         padding: 1.5rem;
         background-color: rgb(255, 247, 200);
+        font-size: 1.4rem;
 
         box-sizing: border-box;
         border: solid 3px rgb(75, 75, 75);
@@ -227,6 +230,12 @@ export default {
 
         #form-wrap {
                 min-width: 80vw;
+        }
+
+        #priority-wrap {
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
         }
 
         #boxes-wrap {
