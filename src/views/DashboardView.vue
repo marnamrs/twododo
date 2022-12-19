@@ -8,6 +8,8 @@ export default {
                 return {
                         id: null,
                         title: null,
+                        // newtitle: null,
+                        changes: [],
                         status: null,
                         priority: null,
                         isEditing: false, // when true, show edit options
@@ -25,6 +27,15 @@ export default {
                                 userid, this.title, this.priority,
                         );
                         this.title = null;
+                },
+                saveChanges(id, title) {
+                        let change = {
+                                "id" : id,
+                                "title": title,
+                        };
+                        this.changes.push(change);
+                        console.log(this.changes);
+                        this.taskStore.editTask(this.changes);
                 },
                 switchEdit() {
                         if (this.isEditing === false) {
@@ -62,16 +73,19 @@ export default {
                                         class="flex justify-between whitespace-nowrap mx-auto mb-8 px-4">
                                         <p class="caveat  text-2xl font-semibold">How important is it?</p>
                                         <div class="flex">
-                                                <div class="caveat text-2xl mx-2"> <input type="radio" id="highpriority"
-                                                                v-model="priority" value="1" />
+                                                <div class="caveat text-2xl mx-2 px-2 rounded-lg hover:bg-red-50">
+                                                        <input type="radio" id="highpriority" v-model="priority"
+                                                                value="1" />
                                                         <label for="highpriority" class="px-2">Extra</label>
                                                 </div>
-                                                <div class="caveat text-2xl mx-2"> <input type="radio" id="medpriority"
-                                                                v-model="priority" value="2" checked />
+                                                <div class="caveat text-2xl mx-2 px-2 rounded-lg hover:bg-yellow-50">
+                                                        <input type="radio" id="medpriority" v-model="priority"
+                                                                value="2" checked />
                                                         <label for="medpriority" class="px-2">Normal</label>
                                                 </div>
-                                                <div class="caveat text-2xl mx-2"> <input type="radio" id="lowpriority"
-                                                                v-model="priority" value="3" />
+                                                <div class="caveat text-2xl mx-2 px-2 rounded-lg hover:bg-lime-50">
+                                                        <input type="radio" id="lowpriority" v-model="priority"
+                                                                value="3" />
                                                         <label for="lowpriority" class="px-2">Not much</label>
                                                 </div>
                                         </div>
@@ -102,32 +116,49 @@ export default {
                                 </button>
                         </div>
                 </div>
+                <div v-if="isEditing">
+                        <button @click="saveChanges"
+                                        class="block caveat text-3xl bg-gray-100 px-10 py-2 rounded-lg mx-auto">Save all Changes</button>
+                        <p class="!text-[.8rem] mt-[.5rem] text-center text-gray-400">*click on a task to edit its
+                                content</p>
+                </div>
 
                 <div id="boxes-wrap" class="flex justify-between caveat text-3xl mx-auto">
                         <!-- BOXES: INCOMPLETE BY PRIORITY -->
                         <div id="list-wrap" v-for="prioritylist in taskStore.incompleteTasks"
                                 :key="prioritylist[0].priority" class="content-box"
-                                :class="{ 'important': checkImportance(prioritylist[0].priority) }, {'notimportant': checkIrrelevance(prioritylist[0].priority)}">
+                                :class="{ 'important': checkImportance(prioritylist[0].priority), 'notimportant': checkIrrelevance(prioritylist[0].priority) }">
                                 <ul>
                                         <li v-for="task in prioritylist" :key="task.id"
-                                                class="flex justify-between cursor-pointer hover:line-through leading-loose">
-                                                <span v-on:click="taskStore.toggleStatus(task.id, task.status)"
-                                                        class="block"> > {{ task.title }}</span>
-                                                <span class="block">
-                                                        <img v-if="isEditing" src="../assets/images/trash.png"
+                                                class="flex justify-between cursor-pointer  leading-loose">
+                                                <span v-if="!isEditing"
+                                                        v-on:click="taskStore.toggleStatus(task.id, task.status)"
+                                                        class="block hover:line-through"> > {{ task.title }}</span>
+                                                <span v-if="isEditing" contenteditable="true" 
+                                                        class="block focus:outline-none focus:font-bold"> > {{
+                                                                        task.title
+                                                        }}</span>
+                                                <!-- <input v-else type="text" :placeholder="task.title" v-model="newtitle"
+                                                        class="block bg-transparent border-none " /> -->
+                                                <span class="flex">
+                                                        <img v-if="isEditing" @click="saveChanges(task.id, task.title)"
+                                                                src="../assets/images/floppy-disc.png"
+                                                                class="block h-6 px-2" />
+                                                        <img v-if="isEditing" src="../assets/images/dustbin.png"
                                                                 v-on:click="taskStore.deleteTask(task.id)"
-                                                                class="w-10" />
+                                                                class="block h-6 px-2" />
                                                 </span>
                                         </li>
                                 </ul>
                         </div>
                         <!-- BOX: COMPLETED -->
                         <div id="archived-wrap" v-if="showArchived"
-                                class="content-box decoration-3 decoration-black/50">
+                                class="content-box !bg-gray-200 decoration-3 decoration-black/50">
                                 <ul>
                                         <li v-for="task in taskStore.completeTasks" :key="task.id"
                                                 class="flex justify-between">
-                                                <span class="block striked">{{ task.title }}</span>
+                                                <span v-on:click="taskStore.toggleStatus(task.id, task.status)"
+                                                        class="block cursor-pointer striked">{{ task.title }}</span>
                                                 <span class="block">
                                                         <img v-if="isEditing" src="../assets/images/trash.png"
                                                                 v-on:click="taskStore.deleteTask(task.id)"
