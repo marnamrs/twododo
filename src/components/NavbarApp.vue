@@ -10,7 +10,7 @@ export default {
 </script>
 
 <template>
-        <nav class="flex justify-between items-center h-[3.5rem] px-8 py-14">
+        <nav class="flex justify-between items-center h-[3.5rem] px-8 py-8">
                 <div id="logo-wrap" class="ml-4 flex justify-between items-center w-48">
                         <div><img src="../assets/images/logonavbar.png" class="h-[3rem]"></div>
                         <div class="caveat font-bold text-4xl">Twododo</div>

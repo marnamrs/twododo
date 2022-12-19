@@ -71,35 +71,52 @@ export default defineStore("task", {
                         }
                         this.fetchTasks();
                 },
-                async editTask(allChanges) {
+                async editTask(id, title) {
                         //a edit task llega un array de objetos
                         //cada obj tiene siempre id
                         //cada obj puede tener newtitle / newpriority
-                        allChanges.forEach(async (change) => {
-                                const { error } = await supabase
-                                        .from("tasks")
-                                        .update({
-                                                title: change.title,
-                                                priority: change.priority,
-                                        })
-                                        .eq("id", change.id);
-                                if (error) {
-                                        alert(error.message);
-                                        throw error;
-                                }
-                        });
-                        // const { error } = await supabase
-                        //         .from("tasks")
-                        //         .update({
-                        //                 title: newtitle,
-                        //                 priority: newpriority,
-                        //         })
-                        //         .eq("id", id);
-                        // if (error) {
-                        //         alert(error.message);
-                        //         throw error;
-                        // }
+                        // allChanges.forEach(async (change) => {
+                        //         const { error } = await supabase
+                        //                 .from("tasks")
+                        //                 .update({
+                        //                         title: change.title,
+                        //                         priority: change.priority,
+                        //                 })
+                        //                 .eq("id", change.id);
+                        //         if (error) {
+                        //                 alert(error.message);
+                        //                 throw error;
+                        //         }
+                        // });
+                        console.log('id: ' + id)
+                        const { error } = await supabase
+                                .from("tasks")
+                                .update({
+                                        title: title,
+                                        // priority: newpriority,
+                                })
+                                .eq("id", id);
+                        if (error) {
+                                alert(error.message);
+                                throw error;
+                        }
                         this.fetchTasks();
                 },
+                async toggleStatus (id, status) {
+                        console.log(status)
+                        const newstatus = status == 1? 0 : 1;
+                        console.log(newstatus)
+                        const { error } = await supabase
+                                .from("tasks")
+                                .update({
+                                        status: newstatus,
+                                })
+                                .eq("id", id);
+                        if (error) {
+                                alert(error.message);
+                                throw error;
+                        }
+                        this.fetchTasks();
+                }
         },
 });
