@@ -39,6 +39,9 @@ export default {
                 checkImportance(priority) {
                         return priority == 1 ? true : false;
                 },
+                checkIrrelevance(priority) {
+                        return priority == 3 ? true : false;
+                }
         },
         computed: {
                 ...mapStores(userStore, taskStore),
@@ -79,7 +82,7 @@ export default {
                 </div>
 
                 <!-- BUTTONS SECTION -->
-                <div class="flex justify-between mx-auto w-[25%] mt-6 mb-6">
+                <div id="buttons-wrap" class="flex justify-between align-center mx-auto w-[25%] mt-6 mb-6">
                         <div class="hover-wrap">
                                 <button @click="switchEdit" class="caveat text-2xl">
                                         <img src="../assets/images/pencil.png" placeholder="Edit" class="w-12" />
@@ -104,11 +107,12 @@ export default {
                         <!-- BOXES: INCOMPLETE BY PRIORITY -->
                         <div id="list-wrap" v-for="prioritylist in taskStore.incompleteTasks"
                                 :key="prioritylist[0].priority" class="content-box"
-                                :class="{ 'important': checkImportance(prioritylist[0].priority) }">
+                                :class="{ 'important': checkImportance(prioritylist[0].priority) }, {'notimportant': checkIrrelevance(prioritylist[0].priority)}">
                                 <ul>
                                         <li v-for="task in prioritylist" :key="task.id"
                                                 class="flex justify-between cursor-pointer hover:line-through leading-loose">
-                                                <span class="block"> > {{ task.title }}</span>
+                                                <span v-on:click="taskStore.toggleStatus(task.id, task.status)"
+                                                        class="block"> > {{ task.title }}</span>
                                                 <span class="block">
                                                         <img v-if="isEditing" src="../assets/images/trash.png"
                                                                 v-on:click="taskStore.deleteTask(task.id)"
@@ -175,6 +179,14 @@ export default {
         background-blend-mode: overlay;
 }
 
+.notimportant {
+        background-color: rgb(238, 255, 207) !important;
+        background-image: url(../assets/images/bg-green-important-questionmarks.png);
+        background-position: right bottom;
+        background-repeat: no-repeat;
+        background-size: 170px;
+}
+
 .content-box {
         height: auto;
         min-height: 35vh;
@@ -236,6 +248,10 @@ export default {
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
+        }
+
+        #buttons-wrap {
+                width: 70%;
         }
 
         #boxes-wrap {

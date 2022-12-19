@@ -101,5 +101,21 @@ export default defineStore("task", {
                         // }
                         this.fetchTasks();
                 },
+                async toggleStatus (id, status) {
+                        console.log(status)
+                        const newstatus = status == 1? 0 : 1;
+                        console.log(newstatus)
+                        const { error } = await supabase
+                                .from("tasks")
+                                .update({
+                                        status: newstatus,
+                                })
+                                .eq("id", id);
+                        if (error) {
+                                alert(error.message);
+                                throw error;
+                        }
+                        this.fetchTasks();
+                }
         },
 });
