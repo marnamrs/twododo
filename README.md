@@ -18,7 +18,6 @@
         <li>Tasks can either be marked as Complete or deleted. Completed tasks are accessible through the Archive option and their status can be reset to Incomplete. Deleted tasks are fed to Cthulhu and may not be recovered.</li>
         <li>Priority settings follow a traffic light system (red / high, yellow / medium, green / low).</li>
         <li>Options mode allows editing task titles. Saving each change is required to ensure persistence when refreshing the page.</li>
-        <li></li>
 </ul>
 
 <b>Credits:</b>
