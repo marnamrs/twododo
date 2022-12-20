@@ -18,7 +18,6 @@ export default {
                 },
                 reset() {
                         const email = prompt("Please enter your email:");
-                        console.log(email);
                         this.userStore.resetPasswordForEmail(email);
                 }
         }
