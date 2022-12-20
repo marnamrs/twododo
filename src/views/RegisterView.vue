@@ -43,12 +43,12 @@ export default {
 #button {
         white-space: nowrap;
         border-radius: 15px;
-        background-color: rgb(226, 226, 226);
+        background-color: rgb(241, 241, 241);
         box-shadow: 2px 5px 5px rgba(145, 145, 145, 0.863);
 }
 
 #button:hover {
-        background-color: rgb(187, 187, 187);
+        background-color: rgb(161, 161, 161);
         box-shadow: 1px 2px 2px rgba(112, 112, 112, 0.863);
 
 }
