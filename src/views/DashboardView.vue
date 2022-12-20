@@ -27,10 +27,8 @@ export default {
                         this.title = null;
                 },
                 switchOptions() {
-                        if (this.optionsVisible === false) {
-                                this.optionsVisible = true;
-                        } else { this.optionsVisible = false }
-                        if (this.isEditing == true) { this.isEditing = false }
+                        this.optionsVisible === false ? this.optionsVisible = true : this.optionsVisible = false;
+                        if (this.isEditing === true) { this.isEditing = false }
                 },
                 switchEdit() {
                         this.isEditing === false ? this.isEditing = true : this.isEditing = false;
