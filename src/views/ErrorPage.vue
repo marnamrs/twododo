@@ -1,6 +1,9 @@
 <script></script>
 <template>
         <div>
-                Are you lost? Return to the <router-link to="/">safe path</router-link>.
+                <img src="../assets/images/notfound.jpg" alt="null" class="w-[350px] mt-40 mx-auto" />
+        </div>
+        <div class="italic text-center text-sm">
+                Are you lost? Return to the <router-link to="/" class="underline">safe path</router-link>.
         </div>
 </template>

@@ -43,8 +43,9 @@ export default {
 
 <style scoped>
 .bg-theme {
-        width: 60rem;
+
         height: 30rem;
+        width: 60rem;
         margin: auto;
         background-image: url(../assets/images/doodle-arrows-bg.jpg);
         background-size: contain;
