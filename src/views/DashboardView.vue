@@ -33,14 +33,10 @@ export default {
                         if (this.isEditing == true) { this.isEditing = false }
                 },
                 switchEdit() {
-                        if (this.isEditing === false) {
-                                this.isEditing = true;
-                        } else { this.isEditing = false }
+                        this.isEditing === false ? this.isEditing = true : this.isEditing = false;
                 },
                 showArchive() {
-                        if (this.showArchived === false) {
-                                this.showArchived = true;
-                        } else { this.showArchived = false }
+                        this.showArchived === false ? this.showArchived = true : this.showArchived = false;
                 },
                 findPriority(list) {
                         if (list.length > 0) {
