@@ -125,18 +125,20 @@ export default {
                 </div>
 
                 <div id="boxes-wrap" class="flex justify-between caveat text-3xl mx-auto">
-                        <!-- BOXES: INCOMPLETE BY PRIORITY -->
                         <div id="list-wrap" v-for="(prioritylist, index) in taskStore.incompleteTasks" :key="index"
-                                class="content-box"
-                                :class="{ 'important': checkImportance(findPriority(prioritylist)), 'notimportant': checkIrrelevance(findPriority(prioritylist)) }">
-                                <i v-if="checkImportance(findPriority(prioritylist))"
-                                        class="font-extrabold !text-2xl">High priority:</i>
-                                <i v-if="checkIrrelevance(findPriority(prioritylist))"
-                                        class="font-extrabold !text-2xl">Low priority:</i>
+                                class="content-box" :class="{
+                                        'important': checkImportance(findPriority(prioritylist)),
+                                        'notimportant': checkIrrelevance(findPriority(prioritylist))
+                                }">
+                                <i v-if="findPriority(prioritylist) === 1" class="importance-heading drawn-border">
+                                        High priority:</i>
+                                <i v-if="findPriority(prioritylist) === 2" class="importance-heading drawn-border">
+                                        Medium priority:</i>
+                                <i v-if="findPriority(prioritylist) === 3" class="importance-heading drawn-border"> Low
+                                        priority:</i>
                                 <ul>
                                         <li v-for="task in prioritylist" :key="task.id"
                                                 class="flex justify-between leading-loose">
-                                                <!-- LIST ITEM / INPUT FIELD -->
 
                                                 <span v-if="!isEditing && !optionsVisible"
                                                         v-on:click="taskStore.toggleStatus(task.id, task.status)"
@@ -152,16 +154,15 @@ export default {
                                                         class="block bg-transparent border-b border-b-black border-dashed" />
 
                                                 <span class="flex items-center">
-                                                        <!-- SAVE CHANGES -->
                                                         <img v-if="optionsVisible && isEditing"
                                                                 @click="this.taskStore.editTask(task.id, task.title); switchEdit()"
                                                                 src="../assets/images/floppy-disc.png"
                                                                 class="block h-6 mx-2 hover:h-8" />
-                                                        <!-- DELETE -->
                                                         <img v-if="optionsVisible" src="../assets/images/dustbin.png"
                                                                 v-on:click="taskStore.deleteTask(task.id)"
                                                                 class="block h-6 hover:h-8" />
                                                 </span>
+
                                         </li>
                                 </ul>
                         </div>
@@ -205,10 +206,16 @@ export default {
 
 .drawn-border {
         box-sizing: border-box;
-        border-bottom: solid 3px rgb(133, 133, 133);
+        border-bottom: solid 3px rgb(80, 80, 80);
         border-bottom-right-radius: 225px 15px;
-        border-bottom-left-radius: 15px 255px;
+        border-bottom-left-radius: 2px 225px;
         margin-bottom: 1rem;
+}
+
+.importance-heading {
+        font-weight: 800;
+        font-size: 1.5rem !important;
+        line-height: 2rem !important;
 }
 
 .important {
