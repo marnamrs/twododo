@@ -27,10 +27,10 @@ export default {
                         );
                         this.title = null;
                 },
-                findPriority(obj){
+                findPriority(obj) {
                         if (obj.length > 0) {
                                 return obj[0].priority;
-                        } 
+                        }
 
                 },
                 switchOptions() {
@@ -82,7 +82,7 @@ export default {
                                                 </div>
                                                 <div class="caveat text-2xl mx-2 px-2 rounded-lg hover:bg-yellow-50">
                                                         <input type="radio" id="medpriority" v-model="priority"
-                                                                value="2"/>
+                                                                value="2" />
                                                         <label for="medpriority" class="px-2">Medium</label>
                                                 </div>
                                                 <div class="caveat text-2xl mx-2 px-2 rounded-lg hover:bg-lime-50">
@@ -126,8 +126,8 @@ export default {
 
                 <div id="boxes-wrap" class="flex justify-between caveat text-3xl mx-auto">
                         <!-- BOXES: INCOMPLETE BY PRIORITY -->
-                        <div id="list-wrap" v-for="(prioritylist, index) in taskStore.incompleteTasks"
-                                :key="index" class="content-box"
+                        <div id="list-wrap" v-for="(prioritylist, index) in taskStore.incompleteTasks" :key="index"
+                                class="content-box"
                                 :class="{ 'important': checkImportance(findPriority(prioritylist)), 'notimportant': checkIrrelevance(findPriority(prioritylist)) }">
                                 <i v-if="checkImportance(findPriority(prioritylist))"
                                         class="font-extrabold !text-2xl">High priority:</i>
@@ -198,12 +198,8 @@ export default {
 #form-wrap {
         padding: 2rem;
         box-sizing: border-box;
-        border: solid 3px rgb(75, 75, 75);
-        border-top-left-radius: 225px 20px;
-        border-top-right-radius: 20px 225px;
-        border-bottom-right-radius: 225px 15px;
-        border-bottom-left-radius: 15px 255px;
-
+        border: solid 2px rgb(75, 75, 75);
+        border-radius: 15px;
         box-shadow: 5px 10px 10px rgba(78, 78, 78, 0.863);
 }
 
