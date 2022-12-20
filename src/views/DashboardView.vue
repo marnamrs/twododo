@@ -69,7 +69,7 @@ export default {
                                 <input type="text" v-model="title" id="newtask-input" placeholder="New task"
                                         class="drawn-border focus:outline-none focus:bg-slate-100" required />
                                 <div id="priority-wrap" class="flex justify-around mx-auto px-4">
-                                        <p class="caveat  text-2xl font-semibold">Set a priority:</p>
+                                        <p class="caveat text-2xl font-semibold">Set a priority:</p>
                                         <div class="flex">
                                                 <div class="caveat radio-option  hover:bg-red-50">
                                                         <input type="radio" id="highpriority" v-model="priority"
@@ -95,19 +95,19 @@ export default {
 
                 <div id="buttons-wrap">
                         <div class="hover-wrap">
-                                <button @click="switchOptions" class="caveat text-2xl">
-                                        <img src="../assets/images/gear.png" placeholder="Edit" class="w-12" />
+                                <button @click="switchOptions" class="caveat">
+                                        <img src="../assets/images/gear.png" placeholder="Options" class="w-12" />
                                         <p>Options</p>
                                 </button>
                         </div>
                         <div v-if="optionsVisible" class="hover-wrap">
-                                <button @click="switchEdit" class="caveat text-2xl">
+                                <button @click="switchEdit" class="caveat">
                                         <img src="../assets/images/pencil.png" placeholder="Edit" class="w-12" />
                                         <p>Edit</p>
                                 </button>
                         </div>
                         <div class="hover-wrap">
-                                <button @click="showArchive" class="caveat text-2xl">
+                                <button @click="showArchive" class="caveat">
                                         <img src="../assets/images/bag.png" placeholder="Archive" class="w-12" />
                                         <p>Archive</p>
                                 </button>
@@ -137,7 +137,7 @@ export default {
 
                                                 <span v-if="!isEditing && !optionsVisible"
                                                         v-on:click="taskStore.toggleStatus(task.id, task.status)"
-                                                        class="block cursor-pointer  hover:line-through"> > {{
+                                                        class="block cursor-pointer hover:line-through"> > {{
                                                                         task.title
                                                         }}</span>
 
@@ -161,7 +161,6 @@ export default {
                                         </li>
                                 </ul>
                         </div>
-                        <!-- BOX: COMPLETED -->
                         <div id="archived-wrap" v-if="showArchived"
                                 class="content-box !bg-gray-200 decoration-3 decoration-black/50">
                                 <ul>
@@ -302,7 +301,14 @@ export default {
 .hover-wrap p {
         visibility: hidden;
 }
-
+.hover-wrap button {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-style: 1.5rem;
+        line-height: 2rem;
+}
 .hover-wrap:hover p {
         visibility: visible;
 }
