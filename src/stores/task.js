@@ -25,7 +25,6 @@ export default defineStore("task", {
                         const priorHigh = [];
                         const priorMed = [];
                         const priorLow = [];
-
                         tasksArray.find((task, i) => {
                                 if (task.status === 0) {
                                         completedArr.push(tasksArray[i]);
@@ -33,7 +32,6 @@ export default defineStore("task", {
                                         pendingArr.push(tasksArray[i]);
                                 }
                         });
-
                         this.completeTasks = completedArr;
                         if (pendingArr.length > 0) {
                                 pendingArr.find((task, i) => {
@@ -91,22 +89,6 @@ export default defineStore("task", {
                         this.fetchTasks();
                 },
                 async editTask(id, title) {
-                        //a edit task llega un array de objetos
-                        //cada obj tiene siempre id
-                        //cada obj puede tener newtitle / newpriority
-                        // allChanges.forEach(async (change) => {
-                        //         const { error } = await supabase
-                        //                 .from("tasks")
-                        //                 .update({
-                        //                         title: change.title,
-                        //                         priority: change.priority,
-                        //                 })
-                        //                 .eq("id", change.id);
-                        //         if (error) {
-                        //                 alert(error.message);
-                        //                 throw error;
-                        //         }
-                        // });
                         const { error } = await supabase
                                 .from("tasks")
                                 .update({

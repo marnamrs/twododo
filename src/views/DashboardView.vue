@@ -21,17 +21,10 @@ export default {
         methods: {
                 addTask() {
                         const userid = this.userStore.user.id;
-
                         this.taskStore.createTask(
                                 userid, this.title, this.priority,
                         );
                         this.title = null;
-                },
-                findPriority(obj) {
-                        if (obj.length > 0) {
-                                return obj[0].priority;
-                        }
-
                 },
                 switchOptions() {
                         if (this.optionsVisible === false) {
@@ -49,11 +42,13 @@ export default {
                                 this.showArchived = true;
                         } else { this.showArchived = false }
                 },
-                checkImportance(priority) {
-                        return priority == 1 ? true : false;
+                findPriority(list) {
+                        if (list.length > 0) {
+                                return list[0].priority;
+                        }
                 },
-                checkIrrelevance(priority) {
-                        return priority == 3 ? true : false;
+                checkPriority(list, priority) {
+                        return priority == this.findPriority(list) ? true : false;
                 }
         },
         computed: {
@@ -122,14 +117,14 @@ export default {
                 <div id="boxes-wrap" class="flex justify-between caveat text-3xl mx-auto">
                         <div id="list-wrap" v-for="(prioritylist, index) in taskStore.incompleteTasks" :key="index"
                                 class="content-box" :class="{
-                                        'important': checkImportance(findPriority(prioritylist)),
-                                        'notimportant': checkIrrelevance(findPriority(prioritylist))
+                                        'important': checkPriority(prioritylist, 1),
+                                        'notimportant': checkPriority(prioritylist, 3)
                                 }">
-                                <i v-if="findPriority(prioritylist) === 1" class="importance-heading drawn-border">
+                                <i v-if="checkPriority(prioritylist, 1)" class="importance-heading drawn-border">
                                         High priority:</i>
-                                <i v-if="findPriority(prioritylist) === 2" class="importance-heading drawn-border">
+                                <i v-if="checkPriority(prioritylist, 2)" class="importance-heading drawn-border">
                                         Medium priority:</i>
-                                <i v-if="findPriority(prioritylist) === 3" class="importance-heading drawn-border"> Low
+                                <i v-if="checkPriority(prioritylist, 3)" class="importance-heading drawn-border"> Low
                                         priority:</i>
                                 <ul>
                                         <li v-for="task in prioritylist" :key="task.id"
