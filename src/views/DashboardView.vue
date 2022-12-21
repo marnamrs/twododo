@@ -233,7 +233,7 @@ export default {
                                                 <span v-on:click="taskStore.toggleStatus(task.id, task.status)"
                                                         class="block cursor-pointer striked">{{ task.title }}</span>
                                                 <span class="block">
-                                                        <img v-if="isEditing" src="../assets/images/trash.png"
+                                                        <img v-if="isEditing" src="../assets/images/dustbin.png"
                                                                 v-on:click="taskStore.deleteTask(task.id)"
                                                                 class="w-8" />
                                                 </span>
