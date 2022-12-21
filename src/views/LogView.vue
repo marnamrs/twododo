@@ -34,7 +34,8 @@ export default {
                 </div>
                 <div>
                         <label for="password">Password</label>
-                        <input type="password" v-model="password" id="password" autocomplete="current-password" class="border w-full" />
+                        <input type="password" v-model="password" id="password" autocomplete="current-password"
+                                class="border w-full" />
                 </div>
                 <div class="text-center">
                         <button id="button" class="px-6 my-4 caveat">Log In</button>
@@ -43,7 +44,7 @@ export default {
         <div class="text-center">
                 <a @click.once="reset()" class="text-xs mx-5 cursor-pointer">Forgot your password?</a>
         </div>
-        
+
 </template>
 
 <style scoped>
