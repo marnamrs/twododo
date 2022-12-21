@@ -9,7 +9,7 @@
 <li><a href="https://router.vuejs.org/">Vuerouter</a></li>
 <li><a href="https://pinia.vuejs.org/">Pinia</a></li>
 <li><a href="https://app.supabase.com">Supabase</a></li>
-<li>Maronato's <a href="https://github.com/Maronato/vue-toastification">vue-toastification</a></li>
+<li><a href="https://github.com/Maronato/vue-toastification">vue-toastification</a></li>
 </ul>
 
 <b>Usability and requirements:</b>
