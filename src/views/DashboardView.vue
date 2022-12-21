@@ -2,6 +2,7 @@
 import { mapStores } from 'pinia'
 import userStore from '../stores/user'
 import taskStore from '../stores/task'
+import { useToast } from "vue-toastification"
 
 export default {
         data() {
@@ -11,12 +12,16 @@ export default {
                         status: null,
                         priority: null,
                         isEditing: false, // when true, task is editable
-                        optionsVisible: false, // when true, show edit options
+                        changingPriorities: false, // when true, change status on click
                         showArchived: false, // when true, show completed tasks
                 }
         },
         mounted() {
                 this.taskStore.fetchTasks();
+        },
+        setup() {
+                const toast = useToast();
+                return { toast }
         },
         methods: {
                 addTask() {
@@ -26,15 +31,59 @@ export default {
                         );
                         this.title = null;
                 },
-                switchOptions() {
-                        this.optionsVisible === false ? this.optionsVisible = true : this.optionsVisible = false;
+                switchStatus() {
+                        this.changingPriorities === false ? this.changingPriorities = true : this.changingPriorities = false;
                         if (this.isEditing === true) { this.isEditing = false }
                 },
                 switchEdit() {
                         this.isEditing === false ? this.isEditing = true : this.isEditing = false;
+                        if (this.changingPriorities === true) { this.changingPriorities = false }
                 },
                 showArchive() {
                         this.showArchived === false ? this.showArchived = true : this.showArchived = false;
+                },
+                showInfo(info) {
+                        switch (info) {
+                                case 'priorities':
+                                        if (this.changingPriorities) {
+                                                this.toast.info("Change of plans? Drag a task to change its priority.", {
+                                                        position: "bottom-center",
+                                                        timeout: 6000,
+                                                        closeOnClick: true,
+                                                        pauseOnFocusLoss: true,
+                                                        pauseOnHover: true,
+                                                        draggable: true,
+                                                        draggablePercent: 0.6,
+                                                        showCloseButtonOnHover: false,
+                                                        hideProgressBar: false,
+                                                        closeButton: "button",
+                                                        icon: false,
+                                                        rtl: false
+                                                });
+                                        }
+
+                                        break;
+                                case 'edit':
+                                        if (this.isEditing) {
+                                                this.toast.info("Remember to save each edited task!", {
+                                                        position: "bottom-center",
+                                                        timeout: 7000,
+                                                        closeOnClick: true,
+                                                        pauseOnFocusLoss: true,
+                                                        pauseOnHover: true,
+                                                        draggable: true,
+                                                        draggablePercent: 0.6,
+                                                        showCloseButtonOnHover: false,
+                                                        hideProgressBar: false,
+                                                        closeButton: "button",
+                                                        icon: false,
+                                                        rtl: false
+                                                });
+                                        }
+                                        break;
+                        }
+
+
                 },
                 findPriority(list) {
                         if (list.length > 0) {
@@ -42,7 +91,7 @@ export default {
                         }
                 },
                 checkPriority(list, index, priority) {
-                        let listpriority = list.length > 0 ? this.findPriority(list) : index+1
+                        let listpriority = list.length > 0 ? this.findPriority(list) : index + 1
                         return listpriority == priority ? true : false;
                 },
                 startDrag(evt, task) {
@@ -52,8 +101,6 @@ export default {
                 },
                 onDrop(evt, priority) {
                         const itemID = evt.dataTransfer.getData('itemID');
-                        // const task = this.taskStore.tasks.find((task) => task.id == itemID);
-                        // task.priority = priority;
                         this.taskStore.togglePriority(itemID, priority)
                 }
         },
@@ -95,35 +142,29 @@ export default {
 
                 <div id="buttons-wrap">
                         <div class="hover-wrap">
-                                <button @click="switchOptions" class="caveat">
-                                        <img src="../assets/images/gear.png" placeholder="Options" class="w-12" />
-                                        <p>Options</p>
-                                </button>
-                        </div>
-                        <div v-if="optionsVisible" class="hover-wrap">
-                                <button @click="switchEdit" class="caveat">
-                                        <img src="../assets/images/pencil.png" placeholder="Edit" class="w-12" />
-                                        <p>Edit</p>
+                                <button @click="switchStatus(); showInfo('priorities')">
+                                        <img src="../assets/images/presentation.png" placeholder="Change Priorities"
+                                                class="w-12" />
+                                        <p class="icon-info">Change Priorities</p>
                                 </button>
                         </div>
                         <div class="hover-wrap">
-                                <button @click="showArchive" class="caveat">
+                                <button @click="switchEdit(); showInfo('edit')">
+                                        <img src="../assets/images/pencil.png" placeholder="Edit" class="w-12" />
+                                        <p class="icon-info">Edit Tasks</p>
+                                </button>
+                        </div>
+                        <div class="hover-wrap">
+                                <button @click="showArchive">
                                         <img src="../assets/images/bag.png" placeholder="Archive" class="w-12" />
-                                        <p>Archive</p>
+                                        <p class="icon-info">Toggle Archive</p>
                                 </button>
                         </div>
                 </div>
 
-                <div v-if="optionsVisible">
-                        <p id="edit-info" class=" text-gray-400">*click on the edit button
-                                to change the task content. <span class="underline">Remember to save all your
-                                        changes!</span></p>
-                </div>
-
                 <div id="boxes-wrap" class="flex justify-between caveat text-3xl mx-auto">
-                        <!-- drop zone -->
                         <div id="list-wrap" v-for="(prioritylist, index) in taskStore.incompleteTasks" :key="index"
-                                v-on:drop="onDrop($event, index+1)" @dragover.prevent @drop.stop.prevent="onDrop"
+                                v-on:drop="onDrop($event, index + 1)" @dragover.prevent @drop.stop.prevent="onDrop"
                                 class="content-box" :class="{
                                         'important': checkPriority(prioritylist, index, 1),
                                         'notimportant': checkPriority(prioritylist, index, 3)
@@ -133,30 +174,31 @@ export default {
                                         High priority:</i>
                                 <i v-if="checkPriority(prioritylist, index, 2)" class="importance-heading drawn-border">
                                         Medium priority:</i>
-                                <i v-if="checkPriority(prioritylist, index, 3)" class="importance-heading drawn-border"> Low
+                                <i v-if="checkPriority(prioritylist, index, 3)" class="importance-heading drawn-border">
+                                        Low
                                         priority:</i>
 
-                                <!-- draggable element -->
-                                <div v-for="task in prioritylist" :key="task.id" draggable="true"
+                                <div v-for="task in prioritylist" :key="task.id" draggable=true
                                         v-on:dragstart="startDrag($event, task)"
                                         class="drag-el flex justify-between leading-loose">
 
-                                        <span v-if="!isEditing && !optionsVisible" class="block">
+                                        <span v-if="!isEditing && !changingPriorities"
+                                                v-on:click="taskStore.toggleStatus(task.id, task.status)"
+                                                class="block cursor-pointer hover:line-through">
                                                 > {{ task.title }}
                                         </span>
-                                        <span v-if="optionsVisible && !isEditing"
-                                                v-on:click="taskStore.toggleStatus(task.id, task.status)"
-                                                class="block cursor-pointer hover:line-through"> > {{ task.title
+                                        <span v-if="changingPriorities"
+                                                class="block cursor-move animate-pulse"> > {{ task.title
                                                 }}</span>
-                                        <input v-if="optionsVisible && isEditing" type="text" v-model="task.title"
+                                        <input v-if="isEditing" type="text" v-model="task.title"
                                                 class="block bg-transparent border-b border-b-black border-dashed" />
 
                                         <span class="flex items-center">
-                                                <img v-if="optionsVisible && isEditing"
+                                                <img v-if="isEditing"
                                                         @click="this.taskStore.editTask(task.id, task.title); switchEdit()"
                                                         src="../assets/images/floppy-disc.png"
                                                         class="block cursor-pointer h-6 mx-2 hover:h-8" />
-                                                <img v-if="optionsVisible" src="../assets/images/dustbin.png"
+                                                <img v-if="isEditing" src="../assets/images/dustbin.png"
                                                         v-on:click="taskStore.deleteTask(task.id)"
                                                         class="block h-6 cursor-pointer hover:h-8" />
                                         </span>
@@ -218,7 +260,7 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 20%;
+        width: 25%;
         margin: 1.5rem auto .5rem auto;
 }
 
@@ -261,7 +303,6 @@ export default {
 .drag-el {
         -khtml-user-drag: element;
         height: 2.5rem;
-        cursor: move;
 }
 
 .importance-heading {
@@ -308,10 +349,15 @@ export default {
         box-shadow: 5px 10px 10px rgb(110, 110, 110);
 }
 
+.icon-info {
+        font-size: 12px;
+        color: rgb(126, 126, 126);
+        line-height: 2rem;
+        white-space: nowrap;
+}
 .hover-wrap p {
         visibility: hidden;
 }
-
 .hover-wrap button {
         display: flex;
         flex-direction: column;
