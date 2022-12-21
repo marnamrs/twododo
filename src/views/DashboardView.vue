@@ -11,9 +11,9 @@ export default {
                         title: null,
                         status: null,
                         priority: null,
-                        isEditing: false, // when true, task is editable
-                        changingPriorities: false, // when true, change status on click
-                        showArchived: false, // when true, show completed tasks
+                        isEditing: false, 
+                        changingPriorities: false,
+                        showArchived: false, 
                 }
         },
         mounted() {
@@ -47,15 +47,15 @@ export default {
                                 case 'priorities':
                                         if (this.changingPriorities) {
                                                 this.toast.info("Change of plans? Drag a task to change its priority.", {
-                                                        position: "bottom-center",
-                                                        timeout: 6000,
+                                                        position: "top-center",
+                                                        timeout: 5500,
                                                         closeOnClick: true,
                                                         pauseOnFocusLoss: true,
                                                         pauseOnHover: true,
                                                         draggable: true,
                                                         draggablePercent: 0.6,
                                                         showCloseButtonOnHover: false,
-                                                        hideProgressBar: false,
+                                                        hideProgressBar: true,
                                                         closeButton: "button",
                                                         icon: false,
                                                         rtl: false
@@ -66,15 +66,15 @@ export default {
                                 case 'edit':
                                         if (this.isEditing) {
                                                 this.toast.info("Remember to save each edited task!", {
-                                                        position: "bottom-center",
-                                                        timeout: 7000,
+                                                        position: "top-center",
+                                                        timeout: 5500,
                                                         closeOnClick: true,
                                                         pauseOnFocusLoss: true,
                                                         pauseOnHover: true,
                                                         draggable: true,
                                                         draggablePercent: 0.6,
                                                         showCloseButtonOnHover: false,
-                                                        hideProgressBar: false,
+                                                        hideProgressBar: true,
                                                         closeButton: "button",
                                                         icon: false,
                                                         rtl: false
@@ -405,6 +405,7 @@ export default {
         -o-transform: rotate(-5deg);
         transform: rotate(-1deg);
 }
+
 
 @media(max-width: 1200px) {
         #dashboard-wrap {

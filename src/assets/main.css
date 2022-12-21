@@ -1,13 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-
-#app{
+#app {
         font-family: Roboto, sans-serif;
         font-size: 18px;
 }
@@ -18,4 +16,16 @@
 
 .caveat {
         font-family: Caveat, serif;
+}
+
+.Vue-Toastification__toast.customtoast {
+        @apply min-w-0 px-6 py-3 border-2 border-black rounded-lg bg-gray-100 ;
+}
+
+.custom-body-toast {
+        font-family: Roboto, sans-serif;
+        background-color: transparent;
+        color: black;
+        text-align: center;
+        margin: auto;
 }
