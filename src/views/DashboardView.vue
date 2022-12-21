@@ -31,6 +31,11 @@ export default {
                         );
                         this.title = null;
                 },
+                randomPrompt() {
+                        const prompts = ['befriend a dodo', 'outrun an angry thylacine', 'ride a quagga into the sunset', 'search for the last golden toad'];
+                        let prompt = prompts[Math.floor(Math.random() * prompts.length)]
+                        return `To-do: ${prompt}`
+                },
                 switchStatus() {
                         this.changingPriorities === false ? this.changingPriorities = true : this.changingPriorities = false;
                         if (this.isEditing === true) { this.isEditing = false }
@@ -114,7 +119,7 @@ export default {
         <div id="dashboard-wrap">
                 <div id="form-wrap" class="mx-auto">
                         <form @submit.prevent="addTask">
-                                <input type="text" v-model="title" id="newtask-input" placeholder="New task"
+                                <input type="text" v-model="title" id="newtask-input" :placeholder="randomPrompt()"
                                         class="drawn-border focus:outline-none focus:bg-slate-100" required />
                                 <div id="priority-wrap" class="flex justify-around mx-auto px-4">
                                         <p class="caveat text-2xl font-semibold">Set a priority:</p>
@@ -136,7 +141,7 @@ export default {
                                                 </div>
                                         </div>
                                 </div>
-                                <button class="button block caveat bg-gray-100 mx-auto">Add</button>
+                                <button class="button block caveat bg-gray-100 mx-auto !text-2xl">Add</button>
                         </form>
                 </div>
 
@@ -263,6 +268,10 @@ export default {
 #newtask-input {
         width: 95%;
         height: 2.5rem;
+}
+
+#newtask-input::placeholder {
+        font-family: Caveat;
 }
 
 #priority-wrap {
