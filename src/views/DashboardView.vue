@@ -142,22 +142,36 @@ export default {
 
                 <div id="buttons-wrap">
                         <div class="hover-wrap">
-                                <button @click="switchStatus(); showInfo('priorities')">
-                                        <img src="../assets/images/presentation.png" placeholder="Change Priorities"
-                                                class="w-12" />
+                                <button @click="switchStatus(); showInfo('priorities')" name="Change Priorities">
+                                        <img v-if="!changingPriorities" src="../assets/images/presentation.png"
+                                                alt="Change Priorities" class="w-12" />
+                                        <img v-if="changingPriorities" src="../assets/images/presentation-active.png"
+                                                alt="Change Priorities" class="w-12" />
+
                                         <p class="icon-info">Change Priorities</p>
                                 </button>
                         </div>
                         <div class="hover-wrap">
-                                <button @click="switchEdit(); showInfo('edit')">
-                                        <img src="../assets/images/pencil.png" placeholder="Edit" class="w-12" />
+                                <button @click="switchEdit(); showInfo('edit')" name="Edit">
+                                        <img v-if="!isEditing" src="../assets/images/pencil.png" alt="Edit"
+                                                class="w-12" />
+                                        <img v-if="isEditing" src="../assets/images/pencil-active.png"
+                                                alt="Edit" class="w-12" />
                                         <p class="icon-info">Edit Tasks</p>
                                 </button>
                         </div>
                         <div class="hover-wrap">
-                                <button @click="showArchive">
-                                        <img src="../assets/images/bag.png" placeholder="Archive" class="w-12" />
-                                        <p class="icon-info">Toggle Archive</p>
+                                <button @click="showArchive" name="Archive">
+                                        <div v-if="!showArchived" class="flex flex-col justify-center items-center">
+                                                <img src="../assets/images/bag.png" alt="Archive"
+                                                        class="w-12" />
+                                                <p class="icon-info">Show Archive</p>
+                                        </div>
+                                        <div v-if="showArchived" class="flex flex-col justify-center items-center">
+                                                <img v-if="showArchived" src="../assets/images/bag-active.png"
+                                                alt="Archive" class="w-12" />
+                                                <p class="icon-info">Hide Archive</p>
+                                        </div>
                                 </button>
                         </div>
                 </div>
@@ -187,9 +201,9 @@ export default {
                                                 class="block cursor-pointer hover:line-through">
                                                 > {{ task.title }}
                                         </span>
-                                        <span v-if="changingPriorities"
-                                                class="block cursor-move animate-pulse"> > {{ task.title
-                                                }}</span>
+                                        <span v-if="changingPriorities" class="block cursor-move animate-pulse"> > {{
+                                                        task.title
+                                        }}</span>
                                         <input v-if="isEditing" type="text" v-model="task.title"
                                                 class="block bg-transparent border-b border-b-black border-dashed" />
 
@@ -355,9 +369,11 @@ export default {
         line-height: 2rem;
         white-space: nowrap;
 }
+
 .hover-wrap p {
         visibility: hidden;
 }
+
 .hover-wrap button {
         display: flex;
         flex-direction: column;
