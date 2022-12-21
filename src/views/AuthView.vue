@@ -47,7 +47,7 @@ export default {
         height: 30rem;
         width: 60rem;
         margin: auto;
-        background-image: url(../assets/images/doodle-arrows-bg.jpg);
+        background-image: url(../assets/images/doodle-arrows-bg-sm.jpg);
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;

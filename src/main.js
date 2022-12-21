@@ -18,7 +18,7 @@ const pinia = createPinia()
 
 app.use(Toast, {
         transition: "Vue-Toastification__fade",
-        maxToasts: 5,
+        maxToasts: 2,
         newestOnTop: true
 });
 app.use(pinia);

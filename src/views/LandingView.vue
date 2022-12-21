@@ -18,16 +18,16 @@
                         </div>
                 </div>
                 <div class="top flex justify-center items-end">
-                        <img src="../assets/images/arr-top-lg.png" alt="null" class="w-[45rem]" />
+                        <img src="../assets/images/top-arrows.png" alt="null" class="w-[45rem]" />
                 </div>
                 <div class="right flex justify-start items-center">
-                        <img src="../assets/images/arr-right.png" alt="null" class="h-[25rem]" />
+                        <img src="../assets/images/right-arrows.png" alt="null" class="h-[25rem]" />
                 </div>
                 <div class="bot flex justify-center items-start">
-                        <img src="../assets/images/arr-bot-lg.png" alt="null" class="w-[42rem]" />
+                        <img src="../assets/images/bot-arrows.png" alt="null" class="w-[42rem]" />
                 </div>
                 <div class="left flex justify-end items-center">
-                        <img src="../assets/images/arr-left.png" alt="null" class="h-[25rem]" />
+                        <img src="../assets/images/left-arrows.png" alt="null" class="h-[25rem]" />
                 </div>
         </div>
 
@@ -56,6 +56,7 @@
         height: 80vh;
         width: 80vw;
         margin: 3rem auto;
+        min-height: 600px;
 
 }
 

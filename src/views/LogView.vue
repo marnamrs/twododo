@@ -27,14 +27,14 @@ export default {
 
 <template>
 
-        <form @submit.prevent="signIn(email, password)">
+        <form @submit.prevent="signIn(email, password)" autocomplete="on">
                 <div class="mx-auto">
-                        <label id="email">Email</label>
-                        <input type="email" v-model="email" class="border w-full" />
+                        <label for="email">Email</label>
+                        <input type="email" v-model="email" id="email" autocomplete="email" class="border w-full" />
                 </div>
                 <div>
-                        <label id="password">Password</label>
-                        <input type="password" v-model="password" class="border w-full" />
+                        <label for="password">Password</label>
+                        <input type="password" v-model="password" id="password" autocomplete="current-password" class="border w-full" />
                 </div>
                 <div class="text-center">
                         <button id="button" class="px-6 my-4 caveat">Log In</button>
