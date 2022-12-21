@@ -24,7 +24,7 @@
 <b>Credits:</b>
 
 <ul>
-<li>Edit, Archive and Sort icons by <a href="https://www.flaticon.com/free-icons/pencil" title="pencil icons">iconnut @ Flaticon</a></li>
+<li>Edit, Archive and Priority toggle icons by <a href="https://www.flaticon.com/free-icons/pencil" title="pencil icons">iconnut @ Flaticon</a></li>
 <li>Delete and Save icons by <a href="https://www.flaticon.com/free-icons/floppy-disk" title="floppy disk icons">smashingstocks @ Flaticon</a></li>
 <li>Background arrow vectors by <a href="https://www.freepik.com/free-vector/set-hand-drawn-black-arrow-sign-symbol-element-doodle-design_20338992.htm#query=doodle%20design&position=13&from_view=keyword">mamewmy @ Freepik</a></li>
 </ul>
