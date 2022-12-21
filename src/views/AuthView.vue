@@ -29,7 +29,7 @@ export default {
         <div id="bg-wrap" class="bg-theme">
                 <div id="auth-wrap" class="box-content w-[30rem] mx-auto mt-[15vh]">
                         <div class="flex justify-self-start">
-                                <router-link to="/Auth/LogIn" @click="changeActiveTab" activeClass="bg-white"
+                                <router-link to="/Auth/LogIn" activeClass="bg-white"
                                         class="block whitespace-nowrap tabs caveat">Log In</router-link>
                                 <router-link to="/Auth/Register" activeClass="bg-white"
                                         class="block ml-1 hitespace-nowrap tabs caveat">Register</router-link>

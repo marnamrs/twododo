@@ -25,7 +25,6 @@ export default defineStore("task", {
                         const priorHigh = [];
                         const priorMed = [];
                         const priorLow = [];
-
                         tasksArray.find((task, i) => {
                                 if (task.status === 0) {
                                         completedArr.push(tasksArray[i]);
@@ -33,7 +32,6 @@ export default defineStore("task", {
                                         pendingArr.push(tasksArray[i]);
                                 }
                         });
-
                         this.completeTasks = completedArr;
                         if (pendingArr.length > 0) {
                                 pendingArr.find((task, i) => {
@@ -56,16 +54,17 @@ export default defineStore("task", {
                                         }
                                 });
                         }
-                        this.incompleteTasks = [];
-                        if (priorHigh.length > 0) {
-                                this.incompleteTasks.push(priorHigh)
-                        }
-                        if (priorMed.length > 0) {
-                                this.incompleteTasks.push(priorMed)
-                        }
-                        if (priorLow.length > 0) {
-                                this.incompleteTasks.push(priorLow)
-                        }
+                        this.incompleteTasks = []; //avoids duplicate elements when adding task before refresh
+                        this.incompleteTasks = [priorHigh, priorMed, priorLow]
+                        // if (priorHigh.length > 0) {
+                        //         this.incompleteTasks.push(priorHigh)
+                        // }
+                        // if (priorMed.length > 0) {
+                        //         this.incompleteTasks.push(priorMed)
+                        // }
+                        // if (priorLow.length > 0) {
+                        //         this.incompleteTasks.push(priorLow)
+                        // }
                 },
                 async createTask(userid, task, prior) {
                         const { error } = await supabase.from("tasks").insert({
@@ -91,27 +90,24 @@ export default defineStore("task", {
                         this.fetchTasks();
                 },
                 async editTask(id, title) {
-                        //a edit task llega un array de objetos
-                        //cada obj tiene siempre id
-                        //cada obj puede tener newtitle / newpriority
-                        // allChanges.forEach(async (change) => {
-                        //         const { error } = await supabase
-                        //                 .from("tasks")
-                        //                 .update({
-                        //                         title: change.title,
-                        //                         priority: change.priority,
-                        //                 })
-                        //                 .eq("id", change.id);
-                        //         if (error) {
-                        //                 alert(error.message);
-                        //                 throw error;
-                        //         }
-                        // });
                         const { error } = await supabase
                                 .from("tasks")
                                 .update({
                                         title: title,
                                         // priority: newpriority,
+                                })
+                                .eq("id", id);
+                        if (error) {
+                                alert(error.message);
+                                throw error;
+                        }
+                        this.fetchTasks();
+                },
+                async togglePriority(id, priority) {
+                        const { error } = await supabase
+                                .from("tasks")
+                                .update({
+                                        priority: priority,
                                 })
                                 .eq("id", id);
                         if (error) {
