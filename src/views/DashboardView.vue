@@ -251,7 +251,8 @@ export default {
 }
 
 #dashboard-wrap {
-        margin: 3rem;
+        margin: 3rem 3rem 0 3rem;
+        min-height: 85vh;
 }
 
 #form-wrap {
