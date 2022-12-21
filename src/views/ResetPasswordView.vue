@@ -57,7 +57,7 @@ export default {
         width: 25rem;
         margin: auto;
         box-sizing: border-box;
-        border-color: black;
+        border-color: rgb(0, 0, 0);
         border-width: 1px;
         border-radius: 15px;
         box-shadow: 5px 10px 10px rgb(110, 110, 110);
