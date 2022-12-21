@@ -41,8 +41,9 @@ export default {
                                 return list[0].priority;
                         }
                 },
-                checkPriority(list, priority) {
-                        return priority == this.findPriority(list) ? true : false;
+                checkPriority(list, index, priority) {
+                        let listpriority = list.length > 0 ? this.findPriority(list) : index+1
+                        return listpriority == priority ? true : false;
                 },
                 startDrag(evt, task) {
                         evt.dataTransfer.dropEffect = 'move';
@@ -124,15 +125,15 @@ export default {
                         <div id="list-wrap" v-for="(prioritylist, index) in taskStore.incompleteTasks" :key="index"
                                 v-on:drop="onDrop($event, index+1)" @dragover.prevent @drop.stop.prevent="onDrop"
                                 class="content-box" :class="{
-                                        'important': checkPriority(prioritylist, 1),
-                                        'notimportant': checkPriority(prioritylist, 3)
+                                        'important': checkPriority(prioritylist, index, 1),
+                                        'notimportant': checkPriority(prioritylist, index, 3)
                                 }">
-                                <!-- should set title "hardcoded": use index? -->
-                                <i v-if="checkPriority(prioritylist, 1)" class="importance-heading drawn-border">
+
+                                <i v-if="checkPriority(prioritylist, index, 1)" class="importance-heading drawn-border">
                                         High priority:</i>
-                                <i v-if="checkPriority(prioritylist, 2)" class="importance-heading drawn-border">
+                                <i v-if="checkPriority(prioritylist, index, 2)" class="importance-heading drawn-border">
                                         Medium priority:</i>
-                                <i v-if="checkPriority(prioritylist, 3)" class="importance-heading drawn-border"> Low
+                                <i v-if="checkPriority(prioritylist, index, 3)" class="importance-heading drawn-border"> Low
                                         priority:</i>
 
                                 <!-- draggable element -->
