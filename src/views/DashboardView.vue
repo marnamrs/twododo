@@ -43,6 +43,17 @@ export default {
                 },
                 checkPriority(list, priority) {
                         return priority == this.findPriority(list) ? true : false;
+                },
+                startDrag(evt, task) {
+                        evt.dataTransfer.dropEffect = 'move';
+                        evt.dataTransfer.effectAllowed = 'move';
+                        evt.dataTransfer.setData('itemID', task.id);
+                },
+                onDrop(evt, priority) {
+                        const itemID = evt.dataTransfer.getData('itemID');
+                        // const task = this.taskStore.tasks.find((task) => task.id == itemID);
+                        // task.priority = priority;
+                        this.taskStore.togglePriority(itemID, priority)
                 }
         },
         computed: {
@@ -77,8 +88,7 @@ export default {
                                                 </div>
                                         </div>
                                 </div>
-                                <button
-                                        class="button block caveat bg-gray-100 mx-auto">Add</button>
+                                <button class="button block caveat bg-gray-100 mx-auto">Add</button>
                         </form>
                 </div>
 
@@ -105,50 +115,53 @@ export default {
 
                 <div v-if="optionsVisible">
                         <p id="edit-info" class=" text-gray-400">*click on the edit button
-                                to change the task content. <span class="underline">Remember to save all your changes!</span></p>
+                                to change the task content. <span class="underline">Remember to save all your
+                                        changes!</span></p>
                 </div>
 
                 <div id="boxes-wrap" class="flex justify-between caveat text-3xl mx-auto">
+                        <!-- drop zone -->
                         <div id="list-wrap" v-for="(prioritylist, index) in taskStore.incompleteTasks" :key="index"
+                                v-on:drop="onDrop($event, index+1)" @dragover.prevent @drop.stop.prevent="onDrop"
                                 class="content-box" :class="{
                                         'important': checkPriority(prioritylist, 1),
                                         'notimportant': checkPriority(prioritylist, 3)
                                 }">
+                                <!-- should set title "hardcoded": use index? -->
                                 <i v-if="checkPriority(prioritylist, 1)" class="importance-heading drawn-border">
                                         High priority:</i>
                                 <i v-if="checkPriority(prioritylist, 2)" class="importance-heading drawn-border">
                                         Medium priority:</i>
                                 <i v-if="checkPriority(prioritylist, 3)" class="importance-heading drawn-border"> Low
                                         priority:</i>
-                                <ul>
-                                        <li v-for="task in prioritylist" :key="task.id"
-                                                class="flex justify-between leading-loose">
 
-                                                <span v-if="!isEditing && !optionsVisible"
-                                                        v-on:click="taskStore.toggleStatus(task.id, task.status)"
-                                                        class="block cursor-pointer hover:line-through"> > {{
-                                                                        task.title
-                                                        }}</span>
+                                <!-- draggable element -->
+                                <div v-for="task in prioritylist" :key="task.id" draggable="true"
+                                        v-on:dragstart="startDrag($event, task)"
+                                        class="drag-el flex justify-between leading-loose">
 
-                                                <span v-if="optionsVisible && !isEditing" class="block"> > {{ task.title
+                                        <span v-if="!isEditing && !optionsVisible" class="block">
+                                                > {{ task.title }}
+                                        </span>
+                                        <span v-if="optionsVisible && !isEditing"
+                                                v-on:click="taskStore.toggleStatus(task.id, task.status)"
+                                                class="block cursor-pointer hover:line-through"> > {{ task.title
                                                 }}</span>
+                                        <input v-if="optionsVisible && isEditing" type="text" v-model="task.title"
+                                                class="block bg-transparent border-b border-b-black border-dashed" />
 
-                                                <input v-if="optionsVisible && isEditing" type="text"
-                                                        v-model="task.title"
-                                                        class="block bg-transparent border-b border-b-black border-dashed" />
+                                        <span class="flex items-center">
+                                                <img v-if="optionsVisible && isEditing"
+                                                        @click="this.taskStore.editTask(task.id, task.title); switchEdit()"
+                                                        src="../assets/images/floppy-disc.png"
+                                                        class="block cursor-pointer h-6 mx-2 hover:h-8" />
+                                                <img v-if="optionsVisible" src="../assets/images/dustbin.png"
+                                                        v-on:click="taskStore.deleteTask(task.id)"
+                                                        class="block h-6 cursor-pointer hover:h-8" />
+                                        </span>
 
-                                                <span class="flex items-center">
-                                                        <img v-if="optionsVisible && isEditing"
-                                                                @click="this.taskStore.editTask(task.id, task.title); switchEdit()"
-                                                                src="../assets/images/floppy-disc.png"
-                                                                class="block h-6 mx-2 hover:h-8" />
-                                                        <img v-if="optionsVisible" src="../assets/images/dustbin.png"
-                                                                v-on:click="taskStore.deleteTask(task.id)"
-                                                                class="block h-6 hover:h-8" />
-                                                </span>
+                                </div>
 
-                                        </li>
-                                </ul>
                         </div>
                         <div id="archived-wrap" v-if="showArchived"
                                 class="content-box !bg-gray-200 decoration-3 decoration-black/50">
@@ -230,6 +243,7 @@ export default {
         padding: 0.5rem 2.5rem;
         border-radius: 0.5rem;
 }
+
 .button:hover {
         background-color: rgb(218, 218, 218);
         font-weight: 600;
@@ -241,6 +255,12 @@ export default {
         border-bottom-right-radius: 225px 15px;
         border-bottom-left-radius: 2px 225px;
         margin-bottom: 1rem;
+}
+
+.drag-el {
+        -khtml-user-drag: element;
+        height: 2.5rem;
+        cursor: move;
 }
 
 .importance-heading {
@@ -290,6 +310,7 @@ export default {
 .hover-wrap p {
         visibility: hidden;
 }
+
 .hover-wrap button {
         display: flex;
         flex-direction: column;
@@ -298,6 +319,7 @@ export default {
         font-style: 1.5rem;
         line-height: 2rem;
 }
+
 .hover-wrap:hover p {
         visibility: visible;
 }

@@ -54,16 +54,17 @@ export default defineStore("task", {
                                         }
                                 });
                         }
-                        this.incompleteTasks = [];
-                        if (priorHigh.length > 0) {
-                                this.incompleteTasks.push(priorHigh)
-                        }
-                        if (priorMed.length > 0) {
-                                this.incompleteTasks.push(priorMed)
-                        }
-                        if (priorLow.length > 0) {
-                                this.incompleteTasks.push(priorLow)
-                        }
+                        this.incompleteTasks = []; //avoids duplicate elements when adding task before refresh
+                        this.incompleteTasks = [priorHigh, priorMed, priorLow]
+                        // if (priorHigh.length > 0) {
+                        //         this.incompleteTasks.push(priorHigh)
+                        // }
+                        // if (priorMed.length > 0) {
+                        //         this.incompleteTasks.push(priorMed)
+                        // }
+                        // if (priorLow.length > 0) {
+                        //         this.incompleteTasks.push(priorLow)
+                        // }
                 },
                 async createTask(userid, task, prior) {
                         const { error } = await supabase.from("tasks").insert({
@@ -94,6 +95,19 @@ export default defineStore("task", {
                                 .update({
                                         title: title,
                                         // priority: newpriority,
+                                })
+                                .eq("id", id);
+                        if (error) {
+                                alert(error.message);
+                                throw error;
+                        }
+                        this.fetchTasks();
+                },
+                async togglePriority(id, priority) {
+                        const { error } = await supabase
+                                .from("tasks")
+                                .update({
+                                        priority: priority,
                                 })
                                 .eq("id", id);
                         if (error) {
