@@ -11,9 +11,9 @@ export default {
                         title: null,
                         status: null,
                         priority: null,
-                        isEditing: false, // when true, task is editable
-                        changingPriorities: false, // when true, change status on click
-                        showArchived: false, // when true, show completed tasks
+                        isEditing: false, 
+                        changingPriorities: false,
+                        showArchived: false, 
                 }
         },
         mounted() {
@@ -31,6 +31,11 @@ export default {
                         );
                         this.title = null;
                 },
+                randomPrompt() {
+                        const prompts = ['befriend a dodo', 'outrun an angry thylacine', 'ride a quagga into the sunset', 'search for the last golden toad'];
+                        let prompt = prompts[Math.floor(Math.random() * prompts.length)]
+                        return `To-do: ${prompt}`
+                },
                 switchStatus() {
                         this.changingPriorities === false ? this.changingPriorities = true : this.changingPriorities = false;
                         if (this.isEditing === true) { this.isEditing = false }
@@ -47,15 +52,15 @@ export default {
                                 case 'priorities':
                                         if (this.changingPriorities) {
                                                 this.toast.info("Change of plans? Drag a task to change its priority.", {
-                                                        position: "bottom-center",
-                                                        timeout: 6000,
+                                                        position: "top-center",
+                                                        timeout: 5500,
                                                         closeOnClick: true,
                                                         pauseOnFocusLoss: true,
                                                         pauseOnHover: true,
                                                         draggable: true,
                                                         draggablePercent: 0.6,
                                                         showCloseButtonOnHover: false,
-                                                        hideProgressBar: false,
+                                                        hideProgressBar: true,
                                                         closeButton: "button",
                                                         icon: false,
                                                         rtl: false
@@ -66,15 +71,15 @@ export default {
                                 case 'edit':
                                         if (this.isEditing) {
                                                 this.toast.info("Remember to save each edited task!", {
-                                                        position: "bottom-center",
-                                                        timeout: 7000,
+                                                        position: "top-center",
+                                                        timeout: 5500,
                                                         closeOnClick: true,
                                                         pauseOnFocusLoss: true,
                                                         pauseOnHover: true,
                                                         draggable: true,
                                                         draggablePercent: 0.6,
                                                         showCloseButtonOnHover: false,
-                                                        hideProgressBar: false,
+                                                        hideProgressBar: true,
                                                         closeButton: "button",
                                                         icon: false,
                                                         rtl: false
@@ -114,7 +119,7 @@ export default {
         <div id="dashboard-wrap">
                 <div id="form-wrap" class="mx-auto">
                         <form @submit.prevent="addTask">
-                                <input type="text" v-model="title" id="newtask-input" placeholder="New task"
+                                <input type="text" v-model="title" id="newtask-input" :placeholder="randomPrompt()"
                                         class="drawn-border focus:outline-none focus:bg-slate-100" required />
                                 <div id="priority-wrap" class="flex justify-around mx-auto px-4">
                                         <p class="caveat text-2xl font-semibold">Set a priority:</p>
@@ -136,7 +141,7 @@ export default {
                                                 </div>
                                         </div>
                                 </div>
-                                <button class="button block caveat bg-gray-100 mx-auto">Add</button>
+                                <button class="button block caveat bg-gray-100 mx-auto !text-2xl">Add</button>
                         </form>
                 </div>
 
@@ -228,7 +233,7 @@ export default {
                                                 <span v-on:click="taskStore.toggleStatus(task.id, task.status)"
                                                         class="block cursor-pointer striked">{{ task.title }}</span>
                                                 <span class="block">
-                                                        <img v-if="isEditing" src="../assets/images/trash.png"
+                                                        <img v-if="isEditing" src="../assets/images/dustbin.png"
                                                                 v-on:click="taskStore.deleteTask(task.id)"
                                                                 class="w-8" />
                                                 </span>
@@ -246,7 +251,8 @@ export default {
 }
 
 #dashboard-wrap {
-        margin: 3rem;
+        margin: 3rem 3rem 0 3rem;
+        min-height: 85vh;
 }
 
 #form-wrap {
@@ -263,6 +269,10 @@ export default {
 #newtask-input {
         width: 95%;
         height: 2.5rem;
+}
+
+#newtask-input::placeholder {
+        font-family: Caveat;
 }
 
 #priority-wrap {
@@ -405,6 +415,7 @@ export default {
         -o-transform: rotate(-5deg);
         transform: rotate(-1deg);
 }
+
 
 @media(max-width: 1200px) {
         #dashboard-wrap {

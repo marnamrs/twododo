@@ -1,9 +1,11 @@
 <script>
 import NavBar from "./components/NavbarApp.vue"
+import FooterBar from "./components/FooterApp.vue"
 
 export default {
         components: {
-                NavBar
+                NavBar,
+                FooterBar,
         },
 }
 
@@ -14,6 +16,7 @@ export default {
         <div id="app">
                 <RouterView />
         </div>
+        <FooterBar/>
 </template>
 
 <style scoped>

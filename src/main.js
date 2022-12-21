@@ -18,8 +18,10 @@ const pinia = createPinia()
 
 app.use(Toast, {
         transition: "Vue-Toastification__fade",
-        maxToasts: 5,
-        newestOnTop: true
+        maxToasts: 2,
+        newestOnTop: true,
+        toastClassName: "customtoast",
+        bodyClassName: ["custom-body-toast"]
 });
 app.use(pinia);
 app.use(router);
