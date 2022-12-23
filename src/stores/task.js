@@ -14,7 +14,7 @@ export default defineStore("task", {
                         const { data: tasks } = await supabase
                                 .from("tasks")
                                 .select("*")
-                                .order("id", { ascending: false });
+                                .order("id", { ascending: true });
                         this.tasks = tasks;
                         this.filterTasks();
                 },
