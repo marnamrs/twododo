@@ -9,6 +9,7 @@ Last update: 23-12-2022
 * [General Info](#general-info)
 * [Stack](#stack)
 * [Launch](#launch)
+* [Design](#design)
 * [Usability](#usability)
 * [Credits](#credits)
 <hr>
@@ -38,9 +39,22 @@ Other dependencies:
 
 ### Launch
 
-<b><a href="https://twododoapp.netlify.app/">Visit the live version.</a></b>
+<b><a href="https://twododoapp.netlify.app/">Deployed website.</a></b>
+Update(Apr.2023): IMPORTANT: Database is currently offline, send me a mesage if you are interested in seeing a live version of the website with full functionality and I will gladly set it up. While database is offline basic functions of the website might be down. 
 
 Deployed with: <a href="https://www.netlify.com/">Netlify</a>
+
+### Design
+
+<details>
+<summary>Click to see the captures of some of the website layouts</summary>
+<br>
+
+Click on picture to view full size. Some of the details have been changed since the images were recorded.
+
+![twododo - design sheets expanded 20-12-22.png](https://github.com/marnamrs/twododo/blob/b46758d4581dbb738b21f63e911dad7c871e7f80/twododo%20-%20design%20sheets%20expanded%2020-12-22.png)
+
+</details>
 
 ### Usability:
 
